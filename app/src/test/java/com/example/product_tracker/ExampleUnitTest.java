@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.producttracker;
 
 import org.junit.Test;
 

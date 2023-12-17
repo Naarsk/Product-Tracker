@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.slideshow;
+package com.example.product_tracker.ui.slideshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.producttracker.databinding.FragmentSlideshowBinding;
-
+import com.example.producttracker.ui.slideshow.SlideshowViewModel;
 
 public class SlideshowFragment extends Fragment {
 

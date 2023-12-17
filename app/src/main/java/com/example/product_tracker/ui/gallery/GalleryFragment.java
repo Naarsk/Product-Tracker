@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.gallery;
+package com.example.product_tracker.ui.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.producttracker.databinding.FragmentGalleryBinding;
-
+import com.example.producttracker.ui.gallery.GalleryViewModel;
 public class GalleryFragment extends Fragment {
 
     private FragmentGalleryBinding binding;
