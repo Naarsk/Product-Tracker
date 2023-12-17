@@ -1,96 +1,41 @@
 package com.example.producttracker;
 
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.fragment.app.FragmentTransaction;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
-import com.example.producttracker.adapter.ProductAdapter;
-import com.example.producttracker.databinding.ActivityMainBinding;
 import com.example.producttracker.example.ProductDataSource;
 import com.example.producttracker.model.Product;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.producttracker.ui.gallery.GalleryFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private AppBarConfiguration mAppBarConfiguration;
-    private DrawerLayout drawerLayout;
-    private RecyclerView recyclerView;
-    private ProductAdapter productAdapter;
-    private List<Product> productList;
+    private ImageButton button1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_main);
 
-        setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
-
-        drawerLayout = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
-
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setOpenableLayout(drawerLayout)
-                .build();
-
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
-        NavController navController = navHostFragment.getNavController();
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-
-        recyclerView = findViewById(R.id.recyclerView);
-        productList = new ArrayList<>();
-        productAdapter = new ProductAdapter(productList, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(productAdapter);
-
-        loadProducts();
-
-        Button openDrawerButton = findViewById(R.id.open_drawer_button);
-        openDrawerButton.setOnClickListener(new View.OnClickListener() {
+        button1 = findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
+                navigateToGalleryFragment();
             }
         });
     }
 
-    private void loadProducts() {
-        // Implement the logic to load products from the database or other data sources
-        // Add the products to the productList
-        // Update the adapter by calling productAdapter.notifyDataSetChanged()
-        productList.addAll(ProductDataSource.getProductList());
-        productAdapter.notifyDataSetChanged();
-    }
+    private void navigateToGalleryFragment() {
+        List<Product> productList = ProductDataSource.getProductList();
+        GalleryFragment galleryFragment = GalleryFragment.newInstance(productList);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentHome, galleryFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
