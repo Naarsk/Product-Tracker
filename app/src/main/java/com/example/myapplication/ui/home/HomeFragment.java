@@ -1,38 +1,37 @@
-package com.example.producttracker.ui.home;
+package com.example.myapplication.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
-import com.example.producttracker.R;
+import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
+    private FragmentHomeBinding binding;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
         ImageButton button1 = root.findViewById(R.id.button1);
         ImageButton button2 = root.findViewById(R.id.button2);
         ImageButton button3 = root.findViewById(R.id.button3);
-
-        TextView text1 = root.findViewById(R.id.text1);
-        TextView text2 = root.findViewById(R.id.text2);
-        TextView text3 = root.findViewById(R.id.text3);
 
         button1.setOnClickListener(view -> {
             // Handle button1 click event
             // Display products with type "bags" using a gallery
             Bundle bundle = new Bundle();
             bundle.putString("productType", "bags");
-            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
+            // Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
         });
 
         button2.setOnClickListener(view -> {
@@ -40,7 +39,7 @@ public class HomeFragment extends Fragment {
             // Display products with type "gloves" using a gallery
             Bundle bundle = new Bundle();
             bundle.putString("productType", "gloves");
-            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
+            // Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
         });
 
         button3.setOnClickListener(view -> {
@@ -48,9 +47,15 @@ public class HomeFragment extends Fragment {
             // Display products with type "wallets" using a gallery
             Bundle bundle = new Bundle();
             bundle.putString("productType", "wallets");
-            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
+            // Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
         });
 
         return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
