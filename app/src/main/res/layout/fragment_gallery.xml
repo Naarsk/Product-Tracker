@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gallery.GalleryFragment"
+    tools:context="com.example.product_tracker.ui.gallery.GalleryFragment$GalleryFragment"
     android:id = "@+id/fragmentGallery">
 
     <androidx.recyclerview.widget.RecyclerView
