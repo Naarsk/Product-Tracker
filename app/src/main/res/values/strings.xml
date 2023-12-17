@@ -10,4 +10,11 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="add">ADD</string>
+    <string name="quantity">QUANTITY</string>
+    <string name="sell">SELL</string>
+    <string name="price">PRICE</string>
+    <string name="type">TYPE</string>
+    <string name="color">COLOR</string>
+    <string name="number">Number</string>
 </resources>
