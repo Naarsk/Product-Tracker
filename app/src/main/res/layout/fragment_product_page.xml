@@ -8,8 +8,9 @@
     <ImageView
         android:id="@+id/anotherImageView"
         android:layout_width="match_parent"
-        android:layout_height="253dp"
-        android:scaleType="centerCrop" />
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/product_image" />
 
     <!-- Product price -->
     <LinearLayout

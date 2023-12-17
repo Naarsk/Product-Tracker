@@ -18,4 +18,8 @@
     <string name="color">COLOR</string>
     <string name="number">Number</string>
     <string name="todo">TODO</string>
+    <string name="product_image">Product Image</string>
+    <string name="wallets">WALLETS</string>
+    <string name="gloves">GLOVES</string>
+    <string name="bags">BAGS</string>
 </resources>

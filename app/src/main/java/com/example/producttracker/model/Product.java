@@ -5,12 +5,14 @@ public class Product {
     private String imageUrl;
     private double price;
     private int quantity;
+    private String color;
 
-    public Product(String type, String imageUrl, double price, int quantity) {
+    public Product(String type, String imageUrl, double price, int quantity, String color) {
         this.type = type;
         this.imageUrl = imageUrl;
         this.price = price;
         this.quantity = quantity;
+        this.color = color;
     }
 
     public String getType() {
@@ -43,5 +45,13 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
