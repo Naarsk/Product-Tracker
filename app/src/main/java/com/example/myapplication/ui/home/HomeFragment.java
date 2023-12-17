@@ -9,8 +9,8 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.R;
-import com.example.myapplication.databinding.FragmentHomeBinding;
+import com.example.producttracker.R;
+import com.example.producttracker.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
