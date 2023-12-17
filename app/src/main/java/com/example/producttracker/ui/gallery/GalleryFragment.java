@@ -33,7 +33,7 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        RecyclerView productRecyclerView = root.findViewById(R.id.productRecyclerView);
+        RecyclerView productRecyclerView = root.findViewById(R.id.recyclerView);
         productRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         ProductAdapter productAdapter = new ProductAdapter(productList, getContext());
