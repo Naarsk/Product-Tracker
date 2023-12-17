@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.producttracker.adapter.ProductAdapter;
 import com.example.producttracker.databinding.ActivityMainBinding;
+import com.example.producttracker.example.ProductDataSource;
 import com.example.producttracker.model.Product;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,7 +29,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawerLayout;
-    private RecyclerView recyclerView; // Aggiunto il riferimento al RecyclerView
+    private RecyclerView recyclerView;
+    private ProductAdapter productAdapter;
+    private List<Product> productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         recyclerView = findViewById(R.id.recyclerView);
-        List<Product> productList = new ArrayList<>();
-        ProductAdapter productAdapter = new ProductAdapter(productList);
+        productList = new ArrayList<>();
+        productAdapter = new ProductAdapter(productList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(productAdapter);
 
@@ -71,9 +74,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadProducts() {
-        // Implementa qui la logica per caricare i prodotti dal database o da altre fonti di dati
-        // Aggiungi i prodotti alla lista productList
-        // Aggiorna l'adapter chiamando productAdapter.notifyDataSetChanged()
+        // Implement the logic to load products from the database or other data sources
+        // Add the products to the productList
+        // Update the adapter by calling productAdapter.notifyDataSetChanged()
+        productList.addAll(ProductDataSource.getProductList());
+        productAdapter.notifyDataSetChanged();
     }
 
     @Override

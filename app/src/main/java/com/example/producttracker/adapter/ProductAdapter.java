@@ -1,10 +1,11 @@
 package com.example.producttracker.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,32 +17,38 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
-    private List<Product> productList;
 
-    public ProductAdapter(List<Product> productList) {
+    private final List<Product> productList;
+    private final Context context;
+
+    public ProductAdapter(List<Product> productList, Context context) {
         this.productList = productList;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Infla il layout dell'elemento della lista
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Ottieni il prodotto corrente dalla lista
         Product product = productList.get(position);
 
-        // Imposta i dati del prodotto nell'elemento della lista
-        holder.nameTextView.setText(product.getName());
-        holder.priceTextView.setText(String.valueOf(product.getPrice()));
-        holder.quantityTextView.setText(String.valueOf(product.getQuantity()));
+        // Load the product image using Picasso library
+        Picasso.get().load(product.getImageUrl()).into(holder.productImageView);
 
-        // Carica l'immagine del prodotto utilizzando una libreria come Picasso
-        Picasso.get().load(product.getImageUrl()).into(holder.imageView);
+        // Set click listener for the product image
+        holder.productImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle click event, open the corresponding item product page
+                Toast.makeText(context, "Clicked on " + product.getType(), Toast.LENGTH_SHORT).show();
+                // Open the item product page here
+            }
+        });
     }
 
     @Override
@@ -49,18 +56,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return productList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView nameTextView;
-        public TextView priceTextView;
-        public TextView quantityTextView;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView productImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            nameTextView = itemView.findViewById(R.id.nameTextView);
-            priceTextView = itemView.findViewById(R.id.priceTextView);
-            quantityTextView = itemView.findViewById(R.id.quantityTextView);
+            productImageView = itemView.findViewById(R.id.productImageView);
         }
     }
 }

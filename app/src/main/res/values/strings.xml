@@ -17,4 +17,5 @@
     <string name="type">TYPE</string>
     <string name="color">COLOR</string>
     <string name="number">Number</string>
+    <string name="todo">TODO</string>
 </resources>

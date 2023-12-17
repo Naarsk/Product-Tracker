@@ -1,24 +1,24 @@
 package com.example.producttracker.model;
 
 public class Product {
-    private String name;
+    private String type;
     private String imageUrl;
     private double price;
     private int quantity;
 
-    public Product(String name, String imageUrl, double price, int quantity) {
-        this.name = name;
+    public Product(String type, String imageUrl, double price, int quantity) {
+        this.type = type;
         this.imageUrl = imageUrl;
         this.price = price;
         this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getImageUrl() {
