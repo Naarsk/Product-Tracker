@@ -7,19 +7,23 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.producttracker.ui.home.HomeFragment"
+        android:name="com.example.product_tracker.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_gallery"
+            app:destination="@id/nav_gallery" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.product_tracker.ui.gallery.GalleryFragment$GalleryFragment"
+        android:name="com.example.product_tracker.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.producttracker.ui.slideshow.SlideshowFragment"
+        android:name="com.example.product_tracker.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

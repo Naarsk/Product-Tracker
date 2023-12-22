@@ -1,4 +1,4 @@
-package com.example.producttracker.ui.slideshow;
+package com.example.product_tracker.ui.slideshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

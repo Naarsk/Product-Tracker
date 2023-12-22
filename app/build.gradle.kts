@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.producttracker"
+    namespace = "com.example.product_tracker"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.producttracker"
+        applicationId = "com.example.product_tracker"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

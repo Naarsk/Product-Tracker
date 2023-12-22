@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.product_tracker.adapter.ProductAdapter;
 import com.example.product_tracker.model.Product;
-import com.example.producttracker.R;
-import com.example.producttracker.databinding.FragmentGalleryBinding;
+import com.example.product_tracker.R;
+import com.example.product_tracker.databinding.FragmentGalleryBinding;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.producttracker.ui.home;
+package com.example.product_tracker.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,9 +8,10 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
-import com.example.producttracker.R;
-import com.example.producttracker.databinding.FragmentHomeBinding;
+import com.example.product_tracker.R;
+import com.example.product_tracker.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
@@ -31,7 +32,7 @@ public class HomeFragment extends Fragment {
             // Display products with type "bags" using a gallery
             Bundle bundle = new Bundle();
             bundle.putString("productType", "bags");
-            // Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
+            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
         });
 
         button2.setOnClickListener(view -> {
