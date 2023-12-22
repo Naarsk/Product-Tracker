@@ -17,11 +17,12 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private final List<Product> productList;
+    private final Context context;
 
     public ProductAdapter(List<Product> productList, Context context) {
         this.productList = productList;
+        this.context = context;
     }
-
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

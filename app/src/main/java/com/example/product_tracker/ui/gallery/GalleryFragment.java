@@ -11,10 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.product_tracker.adapter.ProductAdapter;
+import com.example.product_tracker.databinding.FragmentGalleryBinding;
 import com.example.product_tracker.example.ProductDataSource;
 import com.example.product_tracker.model.Product;
-import com.example.product_tracker.R;
-import com.example.product_tracker.databinding.FragmentGalleryBinding;
 
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class GalleryFragment extends Fragment {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        RecyclerView productRecyclerView = root.findViewById(R.id.recyclerView);
+        RecyclerView productRecyclerView = binding.recyclerView;
         productRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         ProductAdapter productAdapter = new ProductAdapter(getProductList(), getContext());
@@ -48,9 +47,9 @@ public class GalleryFragment extends Fragment {
         return root;
     }
 
+    @NonNull
     private List<Product> getProductList() {
-        List<Product> productList = ProductDataSource.getProductList(productType);
-        return productList;
+        return ProductDataSource.getProductList(productType);
     }
 
     @Override

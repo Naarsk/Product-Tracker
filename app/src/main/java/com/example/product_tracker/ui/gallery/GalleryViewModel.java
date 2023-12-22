@@ -10,20 +10,18 @@ import com.example.product_tracker.model.Product;
 import java.util.List;
 
 public class GalleryViewModel extends ViewModel {
+    private MutableLiveData<List<Product>> productList;
 
-    private final MutableLiveData<List<Product>> productList;
-
-    public GalleryViewModel() {
-        productList = new MutableLiveData<>();
-        fetchProductList();
-    }
-
-    public LiveData<List<Product>> getProductList() {
+    public LiveData<List<Product>> getProductList(String productType) {
+        if (productList == null) {
+            productList = new MutableLiveData<>();
+            fetchProductList(productType);
+        }
         return productList;
     }
 
-    private void fetchProductList() {
-        List<Product> products = ProductDataSource.getProductList();
+    private void fetchProductList(String productType) {
+        List<Product> products = ProductDataSource.getProductList(productType);
         productList.setValue(products);
     }
 }
