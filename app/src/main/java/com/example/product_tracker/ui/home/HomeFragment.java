@@ -1,5 +1,7 @@
 package com.example.product_tracker.ui.home;
 
+import static com.example.product_tracker.example.ProductDataSource.getProductList;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,11 @@ import androidx.navigation.Navigation;
 
 import com.example.product_tracker.R;
 import com.example.product_tracker.databinding.FragmentHomeBinding;
+import com.example.product_tracker.model.Product;
+import com.example.product_tracker.ui.gallery.GalleryFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -31,7 +38,7 @@ public class HomeFragment extends Fragment {
             // Handle button1 click event
             // Display products with type "bags" using a gallery
             Bundle bundle = new Bundle();
-            bundle.putString("productType", "bags");
+            bundle.putString("productType", "bag");
             Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
         });
 
@@ -40,7 +47,7 @@ public class HomeFragment extends Fragment {
             // Display products with type "gloves" using a gallery
             Bundle bundle = new Bundle();
             bundle.putString("productType", "gloves");
-            // Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
+            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
         });
 
         button3.setOnClickListener(view -> {
@@ -48,7 +55,7 @@ public class HomeFragment extends Fragment {
             // Display products with type "wallets" using a gallery
             Bundle bundle = new Bundle();
             bundle.putString("productType", "wallets");
-            // Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
+            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_gallery, bundle);
         });
 
         return root;

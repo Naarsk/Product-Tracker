@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.product_tracker.adapter.ProductAdapter;
+import com.example.product_tracker.example.ProductDataSource;
 import com.example.product_tracker.model.Product;
 import com.example.product_tracker.R;
 import com.example.product_tracker.databinding.FragmentGalleryBinding;
@@ -18,11 +19,19 @@ import com.example.product_tracker.databinding.FragmentGalleryBinding;
 import java.util.List;
 
 public class GalleryFragment extends Fragment {
-    private final List<Product> productList;
+    private String productType;
     private FragmentGalleryBinding binding; // Declare the binding variable
 
-    public GalleryFragment(List<Product> productList) {
-        this.productList = productList;
+    public GalleryFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            productType = getArguments().getString("productType");
+        }
     }
 
     @Override
@@ -33,10 +42,15 @@ public class GalleryFragment extends Fragment {
         RecyclerView productRecyclerView = root.findViewById(R.id.recyclerView);
         productRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        ProductAdapter productAdapter = new ProductAdapter(productList, getContext());
+        ProductAdapter productAdapter = new ProductAdapter(getProductList(), getContext());
         productRecyclerView.setAdapter(productAdapter);
 
         return root;
+    }
+
+    private List<Product> getProductList() {
+        List<Product> productList = ProductDataSource.getProductList(productType);
+        return productList;
     }
 
     @Override
