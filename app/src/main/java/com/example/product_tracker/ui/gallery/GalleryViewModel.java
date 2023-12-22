@@ -1,4 +1,4 @@
-package com.example.producttracker.ui.gallery;
+package com.example.product_tracker.ui.gallery;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
