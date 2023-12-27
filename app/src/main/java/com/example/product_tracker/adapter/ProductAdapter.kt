@@ -13,7 +13,7 @@ import com.example.product_tracker.adapter.ProductAdapter.ProductViewHolder
 import com.example.product_tracker.model.Product
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.product_tracker.ImageActivity
+import com.example.product_tracker.ProductActivity
 
 class ProductAdapter(private val productList: ArrayList<Product>, private val context: Context) :
     RecyclerView.Adapter<ProductViewHolder>() {
@@ -40,9 +40,9 @@ class ProductAdapter(private val productList: ArrayList<Product>, private val co
 
         Glide.with(context).load(product.imageUrl).apply(RequestOptions().centerCrop()).into(holder.productImageView)
         holder.productImageView.setOnClickListener {
-            val intent = Intent(context, ImageActivity::class.java)
-            intent.putExtra("path", product.imageUrl)
+            val intent = Intent(context, ProductActivity::class.java)
             intent.putExtra("name", productName)
+            intent.putExtra("product", product)
             context.startActivity(intent)
         }
     }

@@ -11,7 +11,7 @@ object ProductDataSource {
                 "/storage/1AFF-2019/Pictures/example/bag_1.png",
                 59.99,
                 10,
-                "brown"
+                "black"
             )
         )
         productList.add(
@@ -20,7 +20,7 @@ object ProductDataSource {
                 "/storage/1AFF-2019/Pictures/example/bag_2.png",
                 19.99,
                 20,
-                "brown"
+                "white"
             )
         )
         productList.add(
@@ -29,7 +29,7 @@ object ProductDataSource {
                 "/storage/1AFF-2019/Pictures/example/wallet_1.png",
                 14.99,
                 15,
-                "brown"
+                "black"
             )
         )
         val filteredList: ArrayList<Product> = ArrayList()

@@ -18,7 +18,6 @@ import com.example.product_tracker.example.ProductDataSource
 import com.example.product_tracker.model.Product
 
 class GalleryActivity : AppCompatActivity() {
-
     private var productRecycler: RecyclerView? = null
     private var progressBar: ProgressBar? = null
     private var products: ArrayList<Product>? = null
@@ -26,7 +25,9 @@ class GalleryActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_gallery)
+
+        val productType = intent.getStringExtra("productType")
 
         productRecycler = findViewById(R.id.productRecycler)
         progressBar = findViewById(R.id.progressBar)
@@ -34,6 +35,8 @@ class GalleryActivity : AppCompatActivity() {
         productRecycler?.layoutManager = GridLayoutManager(this, 3)
         productRecycler?.setHasFixedSize(true)
 
+
+        // Check if the permission is granted
         Log.d("onCreate", "Call onCreate")
         if (ContextCompat.checkSelfPermission(
                 this,
@@ -51,8 +54,8 @@ class GalleryActivity : AppCompatActivity() {
         products = ArrayList()
         if (products!!.isEmpty()) {
             progressBar?.visibility = View.VISIBLE
-            Log.d("onCreate", "Call getAllPictures")
-            products = getProducts()
+            Log.d("onCreate", "Call getProducts")
+            products = productType?.let { getProducts(it) }
             productRecycler?.adapter = ProductAdapter(products!!,this)
             progressBar?.visibility = View.GONE
         }
