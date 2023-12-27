@@ -14,10 +14,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.R
-import com.example.product_tracker.example.ProductDataSource
+import com.example.product_tracker.database.DatabaseHelper
 import com.example.product_tracker.model.Product
 
-class GalleryActivity : AppCompatActivity() {
+class ProductGalleryActivity : AppCompatActivity() {
     private var productRecycler: RecyclerView? = null
     private var progressBar: ProgressBar? = null
     private var products: ArrayList<Product>? = null
@@ -63,7 +63,8 @@ class GalleryActivity : AppCompatActivity() {
 
 
     private fun getProducts(productType: String): ArrayList<Product> {
-
-        return ProductDataSource.getProductList(productType)
+        val dbHelper = DatabaseHelper(this)
+        return dbHelper.getProductsByType(productType)
+        // return ProductDataSource.getProductList(productType)
     }
 }

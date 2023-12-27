@@ -28,6 +28,11 @@
     <string name="wallets">WALLETS</string>
     <string name="gloves">GLOVES</string>
     <string name="bags">BAGS</string>
+    <string name="create_new_product">Create new product</string>
+    <string name="edit_existing_product">Edit existing product</string>
+    <string name="delete_existing_product">Delete existing product</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -15,28 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.product_tracker"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.product_manager.CreateNewProductActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.product_tracker.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Add the following lines for GalleryActivity -->
+        </activity> <!-- Add the following lines for GalleryActivity -->
         <activity
-            android:name="com.example.product_tracker.display_products.GalleryActivity"
-            android:label="Gallery Activity">
-        </activity>
-
+            android:name=".display_products.ProductGalleryActivity"
+            android:label="Gallery Activity"></activity>
         <activity
-            android:name="com.example.product_tracker.display_products.ProductActivity"
-            android:label="Product Activity">
-        </activity>
-
+            android:name=".display_products.ProductActivity"
+            android:label="Product Activity"></activity>
     </application>
 
 </manifest>

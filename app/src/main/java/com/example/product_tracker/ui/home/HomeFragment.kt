@@ -10,7 +10,7 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import com.example.product_tracker.R
 import com.example.product_tracker.databinding.FragmentHomeBinding
-import com.example.product_tracker.display_products.GalleryActivity
+import com.example.product_tracker.display_products.ProductGalleryActivity
 
 class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
@@ -20,14 +20,14 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
-        val button1 = root.findViewById<ImageButton>(R.id.button1)
-        val button2 = root.findViewById<ImageButton>(R.id.button2)
-        val button3 = root.findViewById<ImageButton>(R.id.button3)
+        val button1 = root.findViewById<ImageButton>(R.id.button_bags)
+        val button2 = root.findViewById<ImageButton>(R.id.button_gloves)
+        val button3 = root.findViewById<ImageButton>(R.id.button_wallets)
         button1.setOnClickListener {
             // Handle button1 click event
             // Display products with type "bags" using a gallery
             Log.d("HomeFragment", "button1 clicked")
-            val intent = Intent(requireContext(), GalleryActivity::class.java)
+            val intent = Intent(requireContext(), ProductGalleryActivity::class.java)
             intent.putExtra("productType", "bag")
             startActivity(intent)
         }
@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         button2.setOnClickListener {
             // Handle button2 click event
             // Display products with type "gloves" using a gallery
-            val intent = Intent(requireContext(), GalleryActivity::class.java)
+            val intent = Intent(requireContext(), ProductGalleryActivity::class.java)
             intent.putExtra("productType", "glove")
             startActivity(intent)
 
@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         button3.setOnClickListener {
             // Handle button3 click event
             // Display products with type "wallets" using a gallery
-            val intent = Intent(requireContext(), GalleryActivity::class.java)
+            val intent = Intent(requireContext(), ProductGalleryActivity::class.java)
             intent.putExtra("productType", "wallet")
             startActivity(intent)
         }

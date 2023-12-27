@@ -1,16 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
 
 
-<!-- Product picture -->
-    <ImageView
-        android:id="@+id/productImageView"
+    <!-- Product picture -->
+    <ImageButton
+        android:id="@+id/productLoadImageButton"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
-        android:contentDescription="@string/product_image" />
+        android:contentDescription="@string/product_image"
+        android:src="@drawable/ic_menu_gallery" />
 
     <!-- Product price -->
     <LinearLayout
@@ -31,16 +35,18 @@ android:orientation="vertical">
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/priceTextView"
+        <EditText
+            android:id="@+id/loadPriceTextView"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_weight="1"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:gravity="end"/>
-
+            android:gravity="end"
+            android:autofillHints="@string/price"
+            android:inputType= "numberDecimal"
+            android:hint="@string/price"/>
     </LinearLayout>
 
     <!-- Product price -->
@@ -61,15 +67,18 @@ android:orientation="vertical">
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/typeTextView"
+        <EditText
+            android:id="@+id/loadTypeTextView"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_weight="1"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:gravity="end"/>
+            android:gravity="end"
+            android:autofillHints="@string/type"
+            android:inputType="text"
+            android:hint="@string/type"/>
 
     </LinearLayout>
 
@@ -91,15 +100,18 @@ android:orientation="vertical">
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/colorTextView"
+        <EditText
+            android:id="@+id/loadColorTextView"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_weight="1"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:gravity="end"/>
+            android:gravity="end"
+            android:autofillHints="@string/color"
+            android:inputType="text"
+            android:hint="@string/color"/>
 
     </LinearLayout>
     <!-- Product price -->
@@ -120,70 +132,19 @@ android:orientation="vertical">
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/quantityTextView"
+        <EditText
+            android:id="@+id/loadQuantityTextView"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_weight="1"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:gravity="end"/>
+            android:gravity="end"
+            android:autofillHints="@string/quantity"
+            android:inputType="text"
+            android:hint="@string/quantity"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_sell"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:text="@string/sell" />
-
-        <EditText
-            android:id="@+id/input_sell"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:layout_marginEnd="40dp"
-            android:hint="@string/number"
-            android:autofillHints="Number"
-            android:inputType="number"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_add"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:text="@string/add" />
-
-        <EditText
-            android:id="@+id/input_add"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:layout_marginEnd="40dp"
-            android:hint="@string/number"
-            android:autofillHints="Quantity"
-            android:inputType="number"/>
     </LinearLayout>
 
 </LinearLayout>
