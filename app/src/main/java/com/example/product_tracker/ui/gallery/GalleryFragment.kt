@@ -1,60 +1,45 @@
-package com.example.product_tracker.ui.gallery;
+package com.example.product_tracker.ui.gallery
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.product_tracker.adapter.ProductAdapter
+import com.example.product_tracker.databinding.FragmentGalleryBinding
+import com.example.product_tracker.example.ProductDataSource
+import com.example.product_tracker.model.Product
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.product_tracker.adapter.ProductAdapter;
-import com.example.product_tracker.databinding.FragmentGalleryBinding;
-import com.example.product_tracker.example.ProductDataSource;
-import com.example.product_tracker.model.Product;
-
-import java.util.List;
-
-public class GalleryFragment extends Fragment {
-    private String productType;
-    private FragmentGalleryBinding binding; // Declare the binding variable
-
-    public GalleryFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            productType = getArguments().getString("productType");
+class GalleryFragment : Fragment() {
+    private var productType: String? = null
+    private var binding: FragmentGalleryBinding? = null // Declare the binding variable
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (arguments != null) {
+            productType = requireArguments().getString("productType")
         }
     }
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        RecyclerView productRecyclerView = binding.recyclerView;
-        productRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-
-        ProductAdapter productAdapter = new ProductAdapter(getProductList(), getContext());
-        productRecyclerView.setAdapter(productAdapter);
-
-        return root;
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentGalleryBinding.inflate(inflater, container, false)
+        val root: View = binding!!.root
+        val productRecyclerView = binding!!.recyclerView
+        productRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        val productAdapter = context?.let { ProductAdapter(productList, it) }
+        productRecyclerView.adapter = productAdapter
+        return root
     }
 
-    @NonNull
-    private List<Product> getProductList() {
-        return ProductDataSource.getProductList(productType);
-    }
+    private val productList: ArrayList<Product>
+        get() = ProductDataSource.getProductList(productType)
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

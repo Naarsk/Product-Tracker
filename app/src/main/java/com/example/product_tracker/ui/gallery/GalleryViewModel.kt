@@ -1,27 +1,23 @@
-package com.example.product_tracker.ui.gallery;
+package com.example.product_tracker.ui.gallery
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.product_tracker.example.ProductDataSource
+import com.example.product_tracker.model.Product
 
-import com.example.product_tracker.example.ProductDataSource;
-import com.example.product_tracker.model.Product;
-
-import java.util.List;
-
-public class GalleryViewModel extends ViewModel {
-    private MutableLiveData<List<Product>> productList;
-
-    public LiveData<List<Product>> getProductList(String productType) {
+class GalleryViewModel : ViewModel() {
+    private var productList: MutableLiveData<ArrayList<Product>>? = null
+    fun getProductList(productType: String): LiveData<ArrayList<Product>> {
         if (productList == null) {
-            productList = new MutableLiveData<>();
-            fetchProductList(productType);
+            productList = MutableLiveData()
+            fetchProductList(productType)
         }
-        return productList;
+        return productList!!
     }
 
-    private void fetchProductList(String productType) {
-        List<Product> products = ProductDataSource.getProductList(productType);
-        productList.setValue(products);
+    private fun fetchProductList(productType: String) {
+        val products = ProductDataSource.getProductList(productType)
+        productList!!.value = products
     }
 }

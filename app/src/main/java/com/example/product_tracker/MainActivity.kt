@@ -1,64 +1,52 @@
-package com.example.product_tracker;
+package com.example.product_tracker
 
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.widget.ImageButton;
+import android.os.Bundle
+import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.navigateUp
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.example.product_tracker.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
-
-public class MainActivity extends AppCompatActivity {
-
-    private AppBarConfiguration mAppBarConfiguration;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        com.example.product_tracker.databinding.ActivityMainBinding binding = com.example.product_tracker.databinding.ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+class MainActivity : AppCompatActivity() {
+    private var mAppBarConfiguration: AppBarConfiguration? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val binding = ActivityMainBinding.inflate(
+            layoutInflater
+        )
+        setContentView(binding.root)
+        setSupportActionBar(binding.appBarMain.toolbar)
+        binding.appBarMain.fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+        val drawer = binding.drawerLayout
+        val navigationView = binding.navView
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setOpenableLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        mAppBarConfiguration = AppBarConfiguration.Builder(
+            R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+        )
+            .setOpenableLayout(drawer)
+            .build()
+        val navController = findNavController(this, R.id.nav_host_fragment_content_main)
+        setupActionBarWithNavController(this, navController, mAppBarConfiguration!!)
+        setupWithNavController(navigationView, navController)
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        menuInflater.inflate(R.menu.main, menu)
+        return true
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(this, R.id.nav_host_fragment_content_main)
+        return (navigateUp(navController, mAppBarConfiguration!!)
+                || super.onSupportNavigateUp())
     }
 }

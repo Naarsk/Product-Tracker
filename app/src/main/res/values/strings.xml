@@ -14,6 +14,8 @@
     <string name="home_page">Home Page</string>
     <string name="gallery">Gallery</string>
     <string name="product_page">Product Page</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_image">Product Image</string>
     <string name="add">ADD</string>
     <string name="quantity">QUANTITY</string>
     <string name="sell">SELL</string>
@@ -22,9 +24,9 @@
     <string name="color">COLOR</string>
     <string name="number">Number</string>
     <string name="todo">TODO</string>
-    <string name="product_image">Product Image</string>
     <string name="wallets">WALLETS</string>
     <string name="gloves">GLOVES</string>
     <string name="bags">BAGS</string>
+
 
 </resources>
