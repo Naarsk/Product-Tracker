@@ -29,10 +29,10 @@
             </intent-filter>
         </activity> <!-- Add the following lines for GalleryActivity -->
         <activity
-            android:name=".display_products.ProductGalleryActivity"
+            android:name=".ui.home.ProductGalleryActivity"
             android:label="Gallery Activity"></activity>
         <activity
-            android:name=".display_products.ProductActivity"
+            android:name=".ui.home.ProductActivity"
             android:label="Product Activity"></activity>
     </application>
 

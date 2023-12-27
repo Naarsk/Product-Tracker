@@ -1,4 +1,4 @@
-package com.example.product_tracker.display_products
+package com.example.product_tracker.ui.home
 
 import android.os.Build
 import android.os.Bundle

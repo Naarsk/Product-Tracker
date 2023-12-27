@@ -1,4 +1,4 @@
-package com.example.product_tracker.display_products
+package com.example.product_tracker.ui.home
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.R
-import com.example.product_tracker.display_products.ProductAdapter.ProductViewHolder
+import com.example.product_tracker.ui.home.ProductAdapter.ProductViewHolder
 import com.example.product_tracker.model.Product
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions

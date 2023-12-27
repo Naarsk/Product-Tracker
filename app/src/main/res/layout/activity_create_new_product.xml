@@ -12,7 +12,7 @@
         android:id="@+id/productLoadImageButton"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:scaleType="centerCrop"
+        android:scaleType="center"
         android:contentDescription="@string/product_image"
         android:src="@drawable/ic_menu_gallery" />
 
@@ -144,6 +144,54 @@
             android:autofillHints="@string/quantity"
             android:inputType="text"
             android:hint="@string/quantity"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/idTextViewFixed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_weight="1"
+            android:text="@string/id"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/loadIdTextView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="end"
+            android:autofillHints="@string/id"
+            android:inputType="text"
+            android:hint="@string/id"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/createNewProductButton"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:text="@string/create" />
 
     </LinearLayout>
 

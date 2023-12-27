@@ -1,4 +1,4 @@
-package com.example.product_tracker.ui.home
+package com.example.product_tracker.ui.product_manager
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import com.example.product_tracker.R
 import com.example.product_tracker.databinding.FragmentProductManagerBinding
-import com.example.product_tracker.ui.product_manager.CreateNewProductActivity
 
 class ProductManagerFragment : Fragment() {
     private var binding: FragmentProductManagerBinding? = null

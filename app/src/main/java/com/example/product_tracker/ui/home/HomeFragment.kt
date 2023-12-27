@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import com.example.product_tracker.R
 import com.example.product_tracker.databinding.FragmentHomeBinding
-import com.example.product_tracker.display_products.ProductGalleryActivity
 
 class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
