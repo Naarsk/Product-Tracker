@@ -1,4 +1,4 @@
-package com.example.product_tracker
+package com.example.product_tracker.display_products
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.product_tracker.adapter.ProductAdapter
+import com.example.product_tracker.R
 import com.example.product_tracker.example.ProductDataSource
 import com.example.product_tracker.model.Product
 

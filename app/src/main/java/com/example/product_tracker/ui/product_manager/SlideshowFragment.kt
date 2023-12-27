@@ -1,4 +1,4 @@
-package com.example.product_tracker.ui.slideshow
+package com.example.product_tracker.ui.product_manager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ class SlideshowFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val slideshowViewModel = ViewModelProvider(this).get(
             SlideshowViewModel::class.java
         )

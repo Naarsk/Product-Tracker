@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
@@ -29,12 +28,12 @@
 
         <!-- Add the following lines for GalleryActivity -->
         <activity
-            android:name="com.example.product_tracker.GalleryActivity"
+            android:name="com.example.product_tracker.display_products.GalleryActivity"
             android:label="Gallery Activity">
         </activity>
 
         <activity
-            android:name="com.example.product_tracker.ProductActivity"
+            android:name="com.example.product_tracker.display_products.ProductActivity"
             android:label="Product Activity">
         </activity>
 

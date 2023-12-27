@@ -1,4 +1,4 @@
-package com.example.product_tracker.adapter
+package com.example.product_tracker.display_products
 
 import android.content.Context
 import android.content.Intent
@@ -9,11 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.R
-import com.example.product_tracker.adapter.ProductAdapter.ProductViewHolder
+import com.example.product_tracker.display_products.ProductAdapter.ProductViewHolder
 import com.example.product_tracker.model.Product
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.product_tracker.ProductActivity
 
 class ProductAdapter(private val productList: ArrayList<Product>, private val context: Context) :
     RecyclerView.Adapter<ProductViewHolder>() {
