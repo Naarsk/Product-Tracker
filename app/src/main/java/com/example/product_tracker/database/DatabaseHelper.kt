@@ -4,9 +4,11 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.icu.text.SimpleDateFormat
 import android.util.Log
-import com.example.product_tracker.Utils
 import com.example.product_tracker.model.Product
+import java.util.Date
+import java.util.Locale
 
 
 @Suppress("unused")
@@ -83,30 +85,42 @@ class DatabaseHelper(context: Context?) :
         Log.d("DatabaseHelper", "Found: ${productList.size} products")
         return productList
     }
-    fun addProductsToDatabase(productList: ArrayList<Product>): Int {
+    fun addProductToDatabase(product: Product): Long {
         val db = writableDatabase
-        val currentTime = Utils().getCurrentTime()
-        var addedEntries = 0
+        val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
+        val values = ContentValues()
+        values.put("price", product.price)
+        values.put("type", product.type)
+        values.put("color", product.color)
+        values.put("quantity", product.quantity)
+        values.put("image_url", product.imageUrl)
+        values.put("id", product.id)
+        values.put("name", product.type + " " + product.id)
+        values.put("created_at", currentTime)
+        values.put("updated_at", currentTime)
+
+        val newRowId = db.insert("product_table", null, values)
+
+        if (newRowId != -1L) {
+            Log.d(ContentValues.TAG, "New product inserted successfully in row: $newRowId")
+        } else {
+            Log.e(ContentValues.TAG, "Failed to insert new product")
+        }
+        return newRowId
+    }
+
+    fun addProductsToDatabase(productList: ArrayList<Product>): Int {
+        var addedEntries = 0
         for (product in productList) {
-            val values = ContentValues().apply {
-                put(DatabaseSchema.ProductTable.COLUMN_ID, product.id)
-                put(DatabaseSchema.ProductTable.COLUMN_NAME, product.type + " " + product.color)
-                put(DatabaseSchema.ProductTable.COLUMN_PRICE, product.price)
-                put(DatabaseSchema.ProductTable.COLUMN_QUANTITY, product.quantity)
-                put(DatabaseSchema.ProductTable.COLUMN_IMAGE_URL, product.imageUrl)
-                put(DatabaseSchema.ProductTable.COLUMN_COLOR, product.color)
-                put(DatabaseSchema.ProductTable.COLUMN_CREATED_AT, currentTime)
-                put(DatabaseSchema.ProductTable.COLUMN_UPDATED_AT, currentTime)
-                put(DatabaseSchema.ProductTable.COLUMN_TYPE, product.type)
-            }
-            val newRowId = db.insert(DatabaseSchema.ProductTable.TABLE_NAME, null, values)
+            val newRowId = addProductToDatabase(product)
             if (newRowId != -1L) {
                 addedEntries++
             }
         }
         return addedEntries
     }
+
     fun getMissingProductIds(productIds: List<String>): List<String> {
         val db = readableDatabase
         val selection = "${DatabaseSchema.ProductTable.COLUMN_ID} IN (${productIds.joinToString()})"

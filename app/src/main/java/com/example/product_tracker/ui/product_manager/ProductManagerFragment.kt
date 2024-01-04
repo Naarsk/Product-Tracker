@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.product_tracker.R
 import com.example.product_tracker.databinding.FragmentProductManagerBinding
@@ -17,9 +17,9 @@ class ProductManagerFragment : Fragment() {
         binding = FragmentProductManagerBinding.inflate(inflater, container, false)
 
         val root: View = binding!!.root
-        val buttonCreateNew = root.findViewById<ImageButton>(R.id.button_create_new)
-        val buttonEditExisting = root.findViewById<ImageButton>(R.id.button_edit_existing)
-        val buttonDeleteExisting = root.findViewById<ImageButton>(R.id.button_delete_existing)
+        val buttonCreateNew = root.findViewById<Button>(R.id.button_create_new)
+        val buttonEditExisting = root.findViewById<Button>(R.id.button_edit_existing)
+        val buttonDeleteExisting = root.findViewById<Button>(R.id.button_delete_existing)
 
         buttonCreateNew.setOnClickListener {
             Log.d("ProductManagerFragment", "buttonCreateNew clicked")
