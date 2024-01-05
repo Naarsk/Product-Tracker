@@ -35,7 +35,7 @@ class DatabaseHelper(context: Context?) :
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Handle database schema changes here
     }
-    fun getProductsByType(productType: String): ArrayList<Product> {
+    fun getProductsByType(productType: String?): ArrayList<Product> {
         Log.d("DatabaseHelper", "Query for type: $productType")
         val productList = ArrayList<Product>()
         val db = readableDatabase
@@ -50,8 +50,16 @@ class DatabaseHelper(context: Context?) :
             DatabaseSchema.ProductTable.COLUMN_UPDATED_AT,
             DatabaseSchema.ProductTable.COLUMN_TYPE
         )
-        val selection = "${DatabaseSchema.ProductTable.COLUMN_TYPE} = ?"
-        val selectionArgs = arrayOf(productType)
+        val selection = if (productType != null) {
+            "${DatabaseSchema.ProductTable.COLUMN_TYPE} = ?"
+        } else {
+            null
+        }
+        val selectionArgs = if (productType != null) {
+            arrayOf(productType)
+        } else {
+            null
+        }
         val sortOrder = "${DatabaseSchema.ProductTable.COLUMN_NAME} ASC"
 
         val cursor = db.query(
@@ -76,7 +84,7 @@ class DatabaseHelper(context: Context?) :
                 val updatedAt = getString(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_UPDATED_AT))
                 val type = getString(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_TYPE))
 
-                val product = Product(id, type, imageUrl, price, quantity,  color)
+                val product = Product(id, type, imageUrl, price, quantity, color)
                 productList.add(product)
             }
         }
@@ -94,7 +102,7 @@ class DatabaseHelper(context: Context?) :
         values.put("type", product.type)
         values.put("color", product.color)
         values.put("quantity", product.quantity)
-        values.put("image_url", product.imageUrl)
+        values.put("image_url", product.imagePath)
         values.put("id", product.id)
         values.put("name", product.type + " " + product.id)
         values.put("created_at", currentTime)
@@ -109,7 +117,6 @@ class DatabaseHelper(context: Context?) :
         }
         return newRowId
     }
-
     fun addProductsToDatabase(productList: ArrayList<Product>): Int {
         var addedEntries = 0
         for (product in productList) {
@@ -120,7 +127,6 @@ class DatabaseHelper(context: Context?) :
         }
         return addedEntries
     }
-
     fun getMissingProductIds(productIds: List<String>): List<String> {
         val db = readableDatabase
         val selection = "${DatabaseSchema.ProductTable.COLUMN_ID} IN (${productIds.joinToString()})"
@@ -135,6 +141,26 @@ class DatabaseHelper(context: Context?) :
         }
         cursor.close()
         return missingProductIds
+    }
+    fun deleteProduct(product: Product): Boolean {
+        val db = writableDatabase
+        val whereClause = "${DatabaseSchema.ProductTable.COLUMN_ID} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_TYPE} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_IMAGE_URL} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_PRICE} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_QUANTITY} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_COLOR} = ?"
+        val whereArgs = arrayOf(
+            product.id,
+            product.type,
+            product.imagePath,
+            product.price.toString(),
+            product.quantity.toString(),
+            product.color
+        )
+        val deletedRows = db.delete(DatabaseSchema.ProductTable.TABLE_NAME, whereClause, whereArgs)
+        db.close()
+        return deletedRows > 0
     }
     companion object {
         const val DATABASE_NAME = "product_tracker_database.db"

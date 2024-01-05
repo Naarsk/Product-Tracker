@@ -25,7 +25,7 @@ class HomeFragment : Fragment() {
         button1.setOnClickListener {
             // Handle button1 click event
             // Display products with type "bags" using a gallery
-            Log.d("HomeFragment", "button1 clicked")
+            Log.d("HomeFragment", "bag button clicked")
             val intent = Intent(requireContext(), ProductGalleryActivity::class.java)
             intent.putExtra("productType", "bag")
             startActivity(intent)
@@ -53,4 +53,6 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         binding = null
     }
+
+
 }

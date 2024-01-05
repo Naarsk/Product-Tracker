@@ -12,28 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/button_edit_existing"
+        app:layout_constraintBottom_toTopOf="@+id/button_edit_delete_existing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/create_new_product"/>
 
-
     <Button
-        android:id="@+id/button_edit_existing"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/button_delete_existing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_create_new"
-        android:text="@string/edit_existing_product"/>
-
-
-    <Button
-        android:id="@+id/button_delete_existing"
+        android:id="@+id/button_edit_delete_existing"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
@@ -41,8 +28,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_edit_existing"
-        android:text = "@string/delete_existing_product" />
+        app:layout_constraintTop_toBottomOf="@+id/button_create_new"
+        android:text = "@string/edit_or_delete_product" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

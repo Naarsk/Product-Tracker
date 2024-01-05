@@ -29,12 +29,13 @@
     <string name="gloves">GLOVES</string>
     <string name="bags">BAGS</string>
     <string name="create_new_product">Create new product</string>
-    <string name="edit_existing_product">Edit existing product</string>
-    <string name="delete_existing_product">Delete existing product</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="edit_option">Edit</string>
+    <string name="delete_option">Delete</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create">CREATE</string>
     <string name="id">ID</string>
+    <string name="edit_or_delete_product">Edit or delete product</string>
+    <string name="choose_option">Choose an option</string>
 
 
 </resources>

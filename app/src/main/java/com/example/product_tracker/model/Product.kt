@@ -5,7 +5,7 @@ import java.io.Serializable
 class Product(
     var id: String,
     var type: String,
-    var imageUrl: String,
+    var imagePath: String,
     var price: Double,
     var quantity: Int,
     var color: String

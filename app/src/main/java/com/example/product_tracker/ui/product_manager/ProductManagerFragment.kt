@@ -18,22 +18,16 @@ class ProductManagerFragment : Fragment() {
 
         val root: View = binding!!.root
         val buttonCreateNew = root.findViewById<Button>(R.id.button_create_new)
-        val buttonEditExisting = root.findViewById<Button>(R.id.button_edit_existing)
-        val buttonDeleteExisting = root.findViewById<Button>(R.id.button_delete_existing)
+        val buttonDeleteExisting = root.findViewById<Button>(R.id.button_edit_delete_existing)
 
         buttonCreateNew.setOnClickListener {
             Log.d("ProductManagerFragment", "buttonCreateNew clicked")
             val intent = Intent(requireContext(), CreateNewProductActivity::class.java)
             startActivity(intent)
         }
-        buttonEditExisting.setOnClickListener {
-            Log.d("ProductManagerFragment", "buttonEditExisting clicked")
-            val intent = Intent(requireContext(), CreateNewProductActivity::class.java)  //EditExistingProductActivity
-            startActivity(intent)
-        }
         buttonDeleteExisting.setOnClickListener {
             Log.d("ProductManagerFragment", "buttonDeleteExisting clicked")
-            val intent = Intent(requireContext(), CreateNewProductActivity::class.java)  //DeleteExistingProductActivity
+            val intent = Intent(requireContext(), ShowExistingProductActivity::class.java)  //EditDeleteExistingProductActivity
             startActivity(intent)
         }
         return root

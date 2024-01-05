@@ -1,9 +1,14 @@
 package com.example.product_tracker
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.navigateUp
@@ -19,7 +24,11 @@ class MainActivity : AppCompatActivity() {
     private var mAppBarConfiguration: AppBarConfiguration? = null
     private lateinit var dbHelper: DatabaseHelper
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        Log.d("MainActivity", "Call onCreate")
+
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -30,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
         val drawer = binding.drawerLayout
         val navigationView = binding.navView
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = AppBarConfiguration.Builder(
@@ -38,19 +48,22 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(this, navController, mAppBarConfiguration!!)
         setupWithNavController(navigationView, navController)
 
+        // Check for permissions
+        checkAskPermission()
+
         // Initialize the database helper
         dbHelper = DatabaseHelper(this)
 
-        // Check if the database is already present
+        // Check if the database is already present and create the database if it doesn't exist
         var dbPath = getDatabasePath(DatabaseHelper.DATABASE_NAME).absolutePath
         var dbExists = checkDatabaseExists(dbPath)
-
-        // Create the database if it doesn't exist
         if (!dbExists) {
             createDatabase()
             Log.d("MainActivity", "Database created at path: $dbPath")
             dbPath = getDatabasePath(DatabaseHelper.DATABASE_NAME).absolutePath
             dbExists = checkDatabaseExists(dbPath)
+        } else {
+            Log.d("MainActivity", "Database already present at path: $dbPath")
         }
 
         // Populate the database with data from ProductDataSource if data is missing
@@ -89,5 +102,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun addProductsToDatabase(productList: ArrayList<Product>): Int {
         return dbHelper.addProductsToDatabase(productList)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun askPermission() {
+        Manifest.permission.READ_MEDIA_IMAGES
+        val permission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.d("MainActivity", "Permission READ_MEDIA_IMAGES denied")
+            finish()
+        } else {
+            Log.d("MainActivity", "Permission READ_MEDIA_IMAGES granted")
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun checkAskPermission(){
+    val permission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+    if(permission == PackageManager.PERMISSION_GRANTED){
+        Log.d("MainActivity", "Permission READ_MEDIA_IMAGES already granted")
+    }
+    else{
+        Log.d("MainActivity", "Asking for permission READ_EXTERNAL_STORAGE")
+        askPermission()}
     }
 }

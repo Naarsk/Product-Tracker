@@ -2,10 +2,12 @@ package com.example.product_tracker.ui.home
 
 import android.os.Build
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
 import com.example.product_tracker.model.Product
 
@@ -19,9 +21,14 @@ class ProductActivity : AppCompatActivity() {
 
         supportActionBar?.title = productName
         if (product != null) {
-            Glide.with(this).load(product.imageUrl).into(findViewById(R.id.productImageView))
+            val productImageView = findViewById<ImageView>(R.id.productImageView)
+            Glide.with(this)
+                .load(product.imagePath)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .fitCenter() // Center the image without cropping
+                .into(productImageView)
         }
-
         val priceTextView = findViewById<TextView>(R.id.priceTextView)
         priceTextView.text = product?.price.toString()
         val quantityTextView = findViewById<TextView>(R.id.quantityTextView)
