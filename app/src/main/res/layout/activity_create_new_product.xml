@@ -11,7 +11,7 @@
     <ImageButton
         android:id="@+id/productLoadImageButton"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:scaleType="center"
         android:contentDescription="@string/product_image"
         android:src="@drawable/ic_menu_gallery" />
@@ -19,30 +19,32 @@
     <!-- Product price -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/priceTextViewFixed"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:text="@string/price"
+            android:layout_gravity="center"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/loadPriceTextView"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:layout_gravity="center"
             android:gravity="end"
             android:autofillHints="@string/price"
             android:inputType= "numberDecimal"
@@ -52,60 +54,63 @@
     <!-- Product price -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/typeTextViewFixed"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
             android:text="@string/type"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/loadTypeTextView"
-            android:layout_width="120dp"
+        <Spinner
+            android:id="@+id/loadTypeSpinner"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
             android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="end"
             android:autofillHints="@string/type"
-            android:inputType="text"
-            android:hint="@string/type"/>
+            android:spinnerMode="dropdown" />
 
     </LinearLayout>
 
     <!-- Product color -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/colorTextViewFixed"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:text="@string/color"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/loadColorTextView"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
             android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="end"
@@ -117,27 +122,28 @@
     <!-- Product price -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/quantityTextViewFixed"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
             android:text="@string/quantity"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/loadQuantityTextView"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="end"
@@ -149,27 +155,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginBottom="30dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/idTextViewFixed"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:text="@string/id"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/loadIdTextView"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="end"

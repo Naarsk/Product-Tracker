@@ -12,7 +12,7 @@ import java.util.Locale
 
 
 @Suppress("unused")
-class DatabaseHelper(context: Context?) :
+class ProductDatabaseHelper(context: Context?) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         Log.d("DatabaseHelper", "Creating database: ${DatabaseSchema.ProductTable.TABLE_NAME}")
@@ -162,8 +162,36 @@ class DatabaseHelper(context: Context?) :
         db.close()
         return deletedRows > 0
     }
+
+    fun updateProductQuantity(product: Product, updatedQuantity: Int): Boolean {
+        val db = writableDatabase
+        val values = ContentValues()
+        values.put(DatabaseSchema.ProductTable.COLUMN_QUANTITY, updatedQuantity)
+
+        val whereClause = "${DatabaseSchema.ProductTable.COLUMN_ID} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_TYPE} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_IMAGE_URL} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_PRICE} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_QUANTITY} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_COLOR} = ?"
+
+        val whereArgs = arrayOf(
+            product.id,
+            product.type,
+            product.imagePath,
+            product.price.toString(),
+            product.quantity.toString(),
+            product.color
+        )
+
+        val updatedRows = db.update(DatabaseSchema.ProductTable.TABLE_NAME, values, whereClause, whereArgs)
+        db.close()
+
+        return updatedRows > 0
+    }
+
     companion object {
-        const val DATABASE_NAME = "product_tracker_database.db"
+        const val DATABASE_NAME = "product_database.db"
         private const val DATABASE_VERSION = 1
     }
 }

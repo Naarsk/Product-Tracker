@@ -6,9 +6,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -21,7 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
 import com.example.product_tracker.Utils
-import com.example.product_tracker.database.DatabaseHelper
+import com.example.product_tracker.database.ProductDatabaseHelper
 import com.example.product_tracker.model.Product
 import java.io.File
 import java.text.SimpleDateFormat
@@ -29,6 +31,7 @@ import java.util.Date
 import java.util.Locale
 
 class CreateNewProductActivity : AppCompatActivity() {
+
     // Declare the activity result launchers
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
@@ -37,10 +40,25 @@ class CreateNewProductActivity : AppCompatActivity() {
     private lateinit var selectedImagePath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_new_product)
 
-        // Initialize the activity result launchers
+        // Declare components
+        val loadPriceTextView: EditText = findViewById(R.id.loadPriceTextView)
+        val loadTypeSpinner: Spinner = findViewById(R.id.loadTypeSpinner)
+        val loadColorTextView: EditText = findViewById(R.id.loadColorTextView)
+        val loadQuantityTextView: EditText = findViewById(R.id.loadQuantityTextView)
+        val loadIdTextView: EditText = findViewById(R.id.loadIdTextView)
+        val createNewProductButton: Button = findViewById(R.id.createNewProductButton)
+
+        // Create an ArrayAdapter to populate the spinner with the values:
+        val typeValues = arrayOf("bag", "wallet", "gloves")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, typeValues)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        loadTypeSpinner.adapter = adapter
+
+        // Initialize the activity result launchers for the productLoadImageButton
         galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent(), galleryResultCallback)
         cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {}
 
@@ -49,17 +67,11 @@ class CreateNewProductActivity : AppCompatActivity() {
             showPictureSelectionPopup()
         }
 
-        val createNewProductButton: Button = findViewById(R.id.createNewProductButton)
+        // Create the product when createNewProductButton is clicked
         createNewProductButton.setOnClickListener {
             // Retrieve the values from the EditText fields
-            val loadPriceTextView: EditText = findViewById(R.id.loadPriceTextView)
-            val loadTypeTextView: EditText = findViewById(R.id.loadTypeTextView)
-            val loadColorTextView: EditText = findViewById(R.id.loadColorTextView)
-            val loadQuantityTextView: EditText = findViewById(R.id.loadQuantityTextView)
-            val loadIdTextView: EditText = findViewById(R.id.loadIdTextView)
-
             val price: String = loadPriceTextView.text.toString()
-            val type: String = loadTypeTextView.text.toString()
+            val type: String = loadTypeSpinner.selectedItem.toString()
             val color: String = loadColorTextView.text.toString()
             val quantity: String = loadQuantityTextView.text.toString()
             val id: String = loadIdTextView.text.toString()
@@ -68,7 +80,7 @@ class CreateNewProductActivity : AppCompatActivity() {
             val product = Product(id, type, selectedImagePath, price.toDouble(), quantity.toInt(), color)
 
             // Insert the values into the database
-            val dbHelper = DatabaseHelper(this)
+            val dbHelper = ProductDatabaseHelper(this)
             val newRowId = dbHelper.addProductToDatabase(product)
             if (newRowId != -1L) {
                 // Display success message
@@ -82,6 +94,8 @@ class CreateNewProductActivity : AppCompatActivity() {
             }
         }
     }
+
+    // USED TO POPULATE THE IMAGE FIELD
 
     private fun showPictureSelectionPopup() {
         val options = arrayOf<CharSequence>("Select from Gallery", "Take Picture")

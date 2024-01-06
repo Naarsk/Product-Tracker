@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.R
-import com.example.product_tracker.database.DatabaseHelper
+import com.example.product_tracker.database.ProductDatabaseHelper
 import com.example.product_tracker.model.Product
 
 class ShowExistingProductActivity : AppCompatActivity() {
@@ -52,7 +52,7 @@ class ShowExistingProductActivity : AppCompatActivity() {
 
 
     private fun getProducts(): ArrayList<Product> {
-        val dbHelper = DatabaseHelper(this)
+        val dbHelper = ProductDatabaseHelper(this)
         return dbHelper.getProductsByType(null)
     }
 }

@@ -14,13 +14,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import com.example.product_tracker.database.DatabaseHelper
+import com.example.product_tracker.database.ProductDatabaseHelper
 import com.example.product_tracker.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     private var mAppBarConfiguration: AppBarConfiguration? = null
-    private lateinit var dbHelper: DatabaseHelper
+    private lateinit var dbHelper: ProductDatabaseHelper
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +50,10 @@ class MainActivity : AppCompatActivity() {
         checkAskPermission()
 
         // Initialize the database helper
-        dbHelper = DatabaseHelper(this)
+        dbHelper = ProductDatabaseHelper(this)
 
         // Check if the database is already present and create the database if it doesn't exist
-        val dbPath = getDatabasePath(DatabaseHelper.DATABASE_NAME).absolutePath
+        val dbPath = getDatabasePath(ProductDatabaseHelper.DATABASE_NAME).absolutePath
         val dbExists = checkDatabaseExists(dbPath)
         if (!dbExists) {
             createDatabase()

@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.R
-import com.example.product_tracker.database.DatabaseHelper
+import com.example.product_tracker.database.ProductDatabaseHelper
 import com.example.product_tracker.model.Product
 
 class ProductListActivity : AppCompatActivity() {
@@ -44,7 +44,7 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     private fun getProducts(productType: String): ArrayList<Product> {
-        val dbHelper = DatabaseHelper(this)
+        val dbHelper = ProductDatabaseHelper(this)
         return dbHelper.getProductsByType(productType)
     }
 }

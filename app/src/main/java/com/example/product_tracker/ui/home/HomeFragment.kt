@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
             // Handle button2 click event
             // Display products with type "gloves" using a gallery
             val intent = Intent(requireContext(), ProductListActivity::class.java)
-            intent.putExtra("productType", "glove")
+            intent.putExtra("productType", "gloves")
             startActivity(intent)
 
         }

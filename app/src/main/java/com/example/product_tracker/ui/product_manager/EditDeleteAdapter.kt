@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.product_tracker.R
 import com.example.product_tracker.Utils
-import com.example.product_tracker.database.DatabaseHelper
+import com.example.product_tracker.database.ProductDatabaseHelper
 import com.example.product_tracker.model.Product
 
 class EditDeleteAdapter(private val productList: ArrayList<Product>, private val context: Context) :
@@ -71,8 +71,8 @@ class EditDeleteAdapter(private val productList: ArrayList<Product>, private val
                     // Delete product image
                     Utils().deleteFile(product.imagePath)
                     //Delete product info from database
-                    val databaseHelper = DatabaseHelper(context)
-                    val deleted = databaseHelper.deleteProduct(product)
+                    val productDatabaseHelper = ProductDatabaseHelper(context)
+                    val deleted = productDatabaseHelper.deleteProduct(product)
                     if (deleted) {
                         productList.remove(product)
                         notifyDataSetChanged()
