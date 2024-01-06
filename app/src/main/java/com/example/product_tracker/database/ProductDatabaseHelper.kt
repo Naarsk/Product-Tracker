@@ -165,8 +165,6 @@ class ProductDatabaseHelper(context: Context?) :
 
     fun updateProductQuantity(product: Product, updatedQuantity: Int): Boolean {
         val db = writableDatabase
-        val values = ContentValues()
-        values.put(DatabaseSchema.ProductTable.COLUMN_QUANTITY, updatedQuantity)
 
         val whereClause = "${DatabaseSchema.ProductTable.COLUMN_ID} = ? AND " +
                 "${DatabaseSchema.ProductTable.COLUMN_TYPE} = ? AND " +
@@ -184,9 +182,10 @@ class ProductDatabaseHelper(context: Context?) :
             product.color
         )
 
+        val values = ContentValues()
+        values.put(DatabaseSchema.ProductTable.COLUMN_QUANTITY, updatedQuantity)
         val updatedRows = db.update(DatabaseSchema.ProductTable.TABLE_NAME, values, whereClause, whereArgs)
         db.close()
-
         return updatedRows > 0
     }
 

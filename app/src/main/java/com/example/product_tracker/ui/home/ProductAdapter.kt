@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -51,11 +52,14 @@ class ProductAdapter(
             val intent = Intent(context, ProductActivity::class.java)
             intent.putExtra("name", productName)
             intent.putExtra("product", product)
-            context.startActivity(intent)
+            (context as AppCompatActivity).startActivityForResult(intent, REQUEST_CODE_PRODUCT)
         }
     }
 
     override fun getItemCount(): Int {
         return productList.size
+    }
+    companion object {
+        const val REQUEST_CODE_PRODUCT = 1
     }
 }

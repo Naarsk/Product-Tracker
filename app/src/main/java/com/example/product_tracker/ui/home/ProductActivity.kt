@@ -1,4 +1,7 @@
+package com.example.product_tracker.ui.home
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -46,6 +49,10 @@ class ProductActivity : AppCompatActivity() {
         sellButton.setOnClickListener {
             sellProduct()
         }
+        val addButton = findViewById<Button>(R.id.button_add)
+        addButton.setOnClickListener {
+            addProduct()
+        }
     }
 
     private fun sellProduct() {
@@ -66,10 +73,41 @@ class ProductActivity : AppCompatActivity() {
             // Display success message
             Toast.makeText(this, "Product sold successfully!", Toast.LENGTH_SHORT).show()
             // Finish the activity
+            val intent = Intent()
+            intent.putExtra(EXTRA_PRODUCT_UPDATED, true)
+            setResult(Activity.RESULT_OK, intent)
             finish()
         } else {
             // Display failure message
             Toast.makeText(this, "Failed to update product quantity", Toast.LENGTH_SHORT).show()
         }
+
+    }
+
+    private fun addProduct() {
+        val inputAdd = findViewById<EditText>(R.id.input_add)
+        val addQuantity = inputAdd.text.toString().toIntOrNull() ?: 0
+
+        // Update product quantity in the database
+        val dbHelper = ProductDatabaseHelper(this)
+        val updatedQuantity = product.quantity + addQuantity
+        val success = dbHelper.updateProductQuantity(product, updatedQuantity)
+
+        if (success && addQuantity > 0) {
+            // Display success message
+            Toast.makeText(this, "Product added successfully!", Toast.LENGTH_SHORT).show()
+            // Finish the activity
+            val intent = Intent()
+            intent.putExtra(EXTRA_PRODUCT_UPDATED, true)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        } else {
+            // Display failure message
+            Toast.makeText(this, "Failed to update product quantity", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    companion object {
+        const val EXTRA_PRODUCT_UPDATED = "extra_product_updated"
     }
 }
