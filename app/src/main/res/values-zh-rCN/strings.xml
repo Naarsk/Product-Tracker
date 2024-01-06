@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">存货</string>
+    <string name="navigation_drawer_open">打开导航抽屉</string>
+    <string name="navigation_drawer_close">关闭导航抽屉</string>
+    <string name="nav_header_title">产品追踪器</string>
+    <string name="nav_header_subtitle">leocruciani\@gmail.com</string>
+    <string name="nav_header_desc">导航标题</string>
+    <string name="action_settings">设置</string>
+
+    <string name="menu_home">家</string>
+    <string name="menu_slideshow">幻灯片</string>
+
+    <!--Product List Strings    -->
+    <string name="product_list">产品列表</string>
+    <string name="product_page">产品页面</string>
+    <string name="product_name">产品名称</string>
+    <string name="product_image">产品图片</string>
+    <string name="add">添加</string>
+    <string name="quantity">数量</string>
+    <string name="sell">卖</string>
+    <string name="price">价格</string>
+    <string name="type">类型</string>
+    <string name="color">颜色</string>
+    <string name="number">数字</string>
+    <string name="todo">全部</string>
+    <string name="wallets">钱包</string>
+    <string name="gloves">手套</string>
+    <string name="bags">包</string>
+    <string name="id">ID</string>
+    <!--Product Manager Strings    -->
+    <string name="menu_product_manager">产品管理</string>
+    <!--Edit Delete Product Strings    -->
+    <string name="edit_or_delete_product">删除或编辑</string>
+    <string name="choose_option">选择一个选项</string>
+    <string name="edit_option">编辑</string>
+    <string name="delete_option">删除</string>
+    <!--Create New Product Strings    -->
+    <string name="create_new_product">创造新产品</string>
+    <string name="create">创造</string>
+    <string name="select_picture">选择图片</string>
+    <string name="select_from_gallery">从图库中选择</string>
+    <string name="take_picture">拍照片</string>
+    <string name="product_created_success">产品创建成功</string>
+    <string name="product_creation_failed">产品创建失败</string>
+</resources>

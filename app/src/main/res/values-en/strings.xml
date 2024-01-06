@@ -3,7 +3,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Product Tracker</string>
-    <string name="nav_header_subtitle">leocruciani@gmail.com</string>
+    <string name="nav_header_subtitle">leocruciani\@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -22,7 +22,7 @@
     <string name="type">TYPE</string>
     <string name="color">COLOR</string>
     <string name="number">Number</string>
-    <string name="todo">TODO</string>
+    <string name="todo">ALL</string>
     <string name="wallets">WALLETS</string>
     <string name="gloves">GLOVES</string>
     <string name="bags">BAGS</string>

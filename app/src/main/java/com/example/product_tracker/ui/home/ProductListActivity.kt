@@ -13,7 +13,7 @@ import com.example.product_tracker.R
 import com.example.product_tracker.database.DatabaseHelper
 import com.example.product_tracker.model.Product
 
-class ProductGalleryActivity : AppCompatActivity() {
+class ProductListActivity : AppCompatActivity() {
     private var productRecycler: RecyclerView? = null
     private var progressBar: ProgressBar? = null
     private var products: ArrayList<Product>? = null
@@ -21,7 +21,7 @@ class ProductGalleryActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gallery)
+        setContentView(R.layout.activity_product_list)
 
         val productType = intent.getStringExtra("productType")
 

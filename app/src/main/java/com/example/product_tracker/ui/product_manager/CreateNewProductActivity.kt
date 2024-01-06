@@ -1,5 +1,7 @@
 package com.example.product_tracker.ui.product_manager
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,31 +14,40 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
 import com.example.product_tracker.Utils
 import com.example.product_tracker.database.DatabaseHelper
 import com.example.product_tracker.model.Product
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class CreateNewProductActivity : AppCompatActivity() {
-    // Declare the activity result launcher
+    // Declare the activity result launchers
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
+    private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
 
     private lateinit var productLoadImageButton: ImageButton
-    private lateinit var copiedImagePath: String
+    private lateinit var selectedImagePath: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_new_product)
 
         // Initialize the activity result launchers
         galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent(), galleryResultCallback)
+        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {}
 
         productLoadImageButton = findViewById(R.id.productLoadImageButton)
-        productLoadImageButton.setOnClickListener{showPictureSelectionPopup()}
+        productLoadImageButton.setOnClickListener {
+            showPictureSelectionPopup()
+        }
 
         val createNewProductButton: Button = findViewById(R.id.createNewProductButton)
         createNewProductButton.setOnClickListener {
@@ -54,23 +65,24 @@ class CreateNewProductActivity : AppCompatActivity() {
             val id: String = loadIdTextView.text.toString()
 
             // Create a Product instance with the values
-            val product = Product(id, type, copiedImagePath, price.toDouble(), quantity.toInt(), color)
+            val product = Product(id, type, selectedImagePath, price.toDouble(), quantity.toInt(), color)
 
             // Insert the values into the database
             val dbHelper = DatabaseHelper(this)
             val newRowId = dbHelper.addProductToDatabase(product)
-            if (newRowId != -1L){
+            if (newRowId != -1L) {
                 // Display success message
-                Toast.makeText(this, "Product has been created successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.product_created_success), Toast.LENGTH_SHORT).show()
                 // Return to ProductManagerFragment
                 finish()
             } else {
-                Toast.makeText(this, "Product creation has failed", Toast.LENGTH_SHORT)
-                    .show()
+                // Display failure message
+                Toast.makeText(this, getString(R.string.product_creation_failed), Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
     }
+
     private fun showPictureSelectionPopup() {
         val options = arrayOf<CharSequence>("Select from Gallery", "Take Picture")
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
@@ -82,33 +94,35 @@ class CreateNewProductActivity : AppCompatActivity() {
                     galleryLauncher.launch("image/*")
                 }
                 1 -> {
-                    // cameraLauncher
+                    Log.d("Select Picture", "Launch camera")
+                    launchCamera()
                 }
             }
         }
         builder.show()
     }
 
+    // SELECT FROM GALLERY
+
     private val galleryResultCallback = ActivityResultCallback { uri: Uri? ->
         if (uri != null) {
             val originalImagePath = getFilePathFromContentUri(uri)
 
             // Create a hidden folder to store the copied image
-            val hiddenFolderPath = getExternalFilesDir(null)?.absolutePath + "/hidden_folder/" // .hidden_folder
+            val hiddenFolderPath = getExternalFilesDir(null)?.absolutePath + "/hidden_folder/"
 
             // Generate a unique file name for the copied image
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val newFileName = "product_image_$timeStamp.jpg"
 
             // Create the file path for the copied image
-            copiedImagePath =
+            selectedImagePath =
                 originalImagePath?.let { Utils().copyFile(it, hiddenFolderPath, newFileName) }.toString()
-
-            Log.d("CreateNewProduct", "Image copied successfully to: $copiedImagePath")
+            Log.d("SelectFromGallery", "Image copied successfully to: $selectedImagePath")
 
             // Load the image into the productLoadImageButton
             Glide.with(this)
-                .load(copiedImagePath)
+                .load(selectedImagePath)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .fitCenter() // Center the image without cropping
@@ -129,22 +143,36 @@ class CreateNewProductActivity : AppCompatActivity() {
         return null
     }
 
-}
 
-/*
-private fun getAllPictures(): ArrayList<Image> {
-    val pictures = ArrayList<Image>()
-    val picturesDirectory = File(Environment.getExternalStorageDirectory(), "Pictures")
+    // SELECT FROM CAMERA
+    private fun launchCamera() {
+        checkCameraPermission()
 
-    if (picturesDirectory.exists() && picturesDirectory.isDirectory) {
-        val imageFiles = picturesDirectory.listFiles()
+        val hiddenFolderPath = getExternalFilesDir(null)?.absolutePath + "/hidden_folder/"
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val newFileName = "product_image_$timeStamp.jpg"
+        val newFile = File(hiddenFolderPath, newFileName)
+        selectedImagePath = newFile.absolutePath
 
-        imageFiles?.let {
-            for (file in it) {
-                val imageName = file.name
-                val imagePath = file.absolutePath
-                val image = Image(imageName = imageName, imagePath = imagePath)
-                pictures.add(image)
-            }
+        val photoUri = FileProvider.getUriForFile(this, "${packageName}.fileprovider", newFile)
+        cameraLauncher.launch(photoUri)
+        Glide.with(this)
+            .load(selectedImagePath)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .fitCenter() // Center the image without cropping
+            .into(productLoadImageButton)
+    }
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("checkCameraPermission", "Permission already granted")
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_REQUEST_CODE)
+            Log.d("checkCameraPermission", "Asking for permission")
+            Manifest.permission.CAMERA
         }
-    }*/
+    }
+    companion object {
+        private const val CAMERA_PERMISSION_REQUEST_CODE = 100
+    }
+}

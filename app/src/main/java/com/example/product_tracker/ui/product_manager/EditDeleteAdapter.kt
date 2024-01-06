@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.product_tracker.R
+import com.example.product_tracker.Utils
 import com.example.product_tracker.database.DatabaseHelper
 import com.example.product_tracker.model.Product
 
@@ -39,8 +40,9 @@ class EditDeleteAdapter(private val productList: ArrayList<Product>, private val
 
         holder.productNameView.text = productName
 
-        Glide.with(context).load(product.imagePath).apply(RequestOptions().centerCrop()).into(holder.productImageView)
+        Glide.with(context).load(product.imagePath).apply(RequestOptions().fitCenter()).into(holder.productImageView)
         holder.productImageView.setOnClickListener {
+            Log.d("EditDeleteAdapter", "Product image clicked: $product")
             showEditDeletePopup(product)
         }
     }
@@ -66,18 +68,21 @@ class EditDeleteAdapter(private val productList: ArrayList<Product>, private val
 
                 1 -> {
                     // Delete option selected
+                    // Delete product image
+                    Utils().deleteFile(product.imagePath)
+                    //Delete product info from database
                     val databaseHelper = DatabaseHelper(context)
                     val deleted = databaseHelper.deleteProduct(product)
                     if (deleted) {
                         productList.remove(product)
                         notifyDataSetChanged()
-                        Log.d("EditDeleteAdapter", "Product deleted: $product")
+                        Log.d("DeleteOption", "Product deleted: $product")
                     } else {
-                        Log.e("EditDeleteAdapter", "Failed to delete product: $product")
+                        Log.e("DeleteOption", "Failed to delete product: $product")
                     }
                 }
             }
-            builder.show()
         }
+        builder.show()
     }
 }

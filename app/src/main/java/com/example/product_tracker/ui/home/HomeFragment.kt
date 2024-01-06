@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
             // Handle button1 click event
             // Display products with type "bags" using a gallery
             Log.d("HomeFragment", "bag button clicked")
-            val intent = Intent(requireContext(), ProductGalleryActivity::class.java)
+            val intent = Intent(requireContext(), ProductListActivity::class.java)
             intent.putExtra("productType", "bag")
             startActivity(intent)
         }
@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
         button2.setOnClickListener {
             // Handle button2 click event
             // Display products with type "gloves" using a gallery
-            val intent = Intent(requireContext(), ProductGalleryActivity::class.java)
+            val intent = Intent(requireContext(), ProductListActivity::class.java)
             intent.putExtra("productType", "glove")
             startActivity(intent)
 
@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
         button3.setOnClickListener {
             // Handle button3 click event
             // Display products with type "wallets" using a gallery
-            val intent = Intent(requireContext(), ProductGalleryActivity::class.java)
+            val intent = Intent(requireContext(), ProductListActivity::class.java)
             intent.putExtra("productType", "wallet")
             startActivity(intent)
         }

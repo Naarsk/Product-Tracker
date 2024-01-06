@@ -16,8 +16,6 @@ import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.product_tracker.database.DatabaseHelper
 import com.example.product_tracker.databinding.ActivityMainBinding
-import com.example.product_tracker.example.ProductDataSource
-import com.example.product_tracker.model.Product
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
@@ -55,27 +53,13 @@ class MainActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
 
         // Check if the database is already present and create the database if it doesn't exist
-        var dbPath = getDatabasePath(DatabaseHelper.DATABASE_NAME).absolutePath
-        var dbExists = checkDatabaseExists(dbPath)
+        val dbPath = getDatabasePath(DatabaseHelper.DATABASE_NAME).absolutePath
+        val dbExists = checkDatabaseExists(dbPath)
         if (!dbExists) {
             createDatabase()
             Log.d("MainActivity", "Database created at path: $dbPath")
-            dbPath = getDatabasePath(DatabaseHelper.DATABASE_NAME).absolutePath
-            dbExists = checkDatabaseExists(dbPath)
         } else {
             Log.d("MainActivity", "Database already present at path: $dbPath")
-        }
-
-        // Populate the database with data from ProductDataSource if data is missing
-        val productList = ProductDataSource.getProductList(null)
-        val productIds = productList.map { it.id }
-        if (dbExists) {
-            val missingProductIds = dbHelper.getMissingProductIds(productIds)
-            if (missingProductIds.isNotEmpty()) {
-                val missingProducts = productList.filter { it.id in missingProductIds }
-                val addedEntries = addProductsToDatabase(missingProducts as ArrayList<Product>)
-                Log.d("MainActivity", "Added $addedEntries entries to the database")
-            }
         }
     }
 
@@ -98,10 +82,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun createDatabase() {
         dbHelper.writableDatabase
-    }
-
-    private fun addProductsToDatabase(productList: ArrayList<Product>): Int {
-        return dbHelper.addProductsToDatabase(productList)
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

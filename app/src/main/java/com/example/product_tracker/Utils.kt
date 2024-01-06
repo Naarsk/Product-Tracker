@@ -10,8 +10,8 @@ import java.io.OutputStream
 
 class Utils{
     fun copyFile(inputFilePath: String, outputPath: String, outputFile: String): String {
-        var inputStream: InputStream? = null
-        var outputStream: OutputStream? = null
+        val inputStream: InputStream?
+        val outputStream: OutputStream?
         try {
 
             //create output directory if it doesn't exist
@@ -38,5 +38,12 @@ class Utils{
         }
         return outputPath + outputFile
     }
-
+    fun deleteFile(inputFilePath: String) {
+        try {
+            // delete the original file
+            File(inputFilePath).delete()
+        } catch (e: java.lang.Exception) {
+            Log.e("tag", e.message!!)
+        }
+    }
 }

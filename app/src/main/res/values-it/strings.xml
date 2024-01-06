@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Inventario</string>
+    <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
+    <string name="navigation_drawer_close">Chiudi il cassetto di navigazione</string>
+    <string name="nav_header_title">Monitoraggio del prodotto</string>
+    <string name="nav_header_subtitle">leocruciani\@gmail.com</string>
+    <string name="nav_header_desc">Intestazione di navigazione</string>
+    <string name="action_settings">Impostazioni</string>
+
+    <string name="menu_home">Casa</string>
+    <string name="menu_slideshow">Presentazione</string>
+
+    <!--Product List Strings    -->
+    <string name="product_list">Elenco prodotti</string>
+    <string name="product_page">Pagina del prodotto</string>
+    <string name="product_name">nome del prodotto</string>
+    <string name="product_image">Immagine del prodotto</string>
+    <string name="add">AGGIUNGERE</string>
+    <string name="quantity">QUANTITÀ</string>
+    <string name="sell">VENDERE</string>
+    <string name="price">PREZZO</string>
+    <string name="type">TIPO</string>
+    <string name="color">COLORE</string>
+    <string name="number">Numero</string>
+    <string name="todo">TUTTO</string>
+    <string name="wallets">PORTAFOGLI</string>
+    <string name="gloves">GUANTI</string>
+    <string name="bags">BORSE</string>
+    <string name="id">ID</string>
+    <!--Product Manager Strings    -->
+    <string name="menu_product_manager">Gestione prodotti</string>
+    <!--Edit Delete Product Strings    -->
+    <string name="edit_or_delete_product">Modifica o elimina il prodotto</string>
+    <string name="choose_option">Scegliere un\'opzione</string>
+    <string name="edit_option">Modificare</string>
+    <string name="delete_option">Eliminare</string>
+    <!--Create New Product Strings    -->
+    <string name="create_new_product">Crea un nuovo prodotto</string>
+    <string name="create">CREARE</string>
+    <string name="select_picture">Seleziona Immagine</string>
+    <string name="select_from_gallery">Seleziona dalla Galleria</string>
+    <string name="take_picture">Fare una foto</string>
+    <string name="product_created_success">Prodotto creato con successo!</string>
+    <string name="product_creation_failed">Creazione del prodotto fallita</string>
+
+</resources>
