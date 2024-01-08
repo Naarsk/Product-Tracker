@@ -15,7 +15,7 @@ import java.util.Locale
 class ProductDatabaseHelper(context: Context?) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
-        Log.d("DatabaseHelper", "Creating database: ${DatabaseSchema.ProductTable.TABLE_NAME}")
+        Log.d("ProductDatabaseHelper", "Creating database: ${DatabaseSchema.ProductTable.TABLE_NAME}")
 
         val createTableQuery = "CREATE TABLE " + DatabaseSchema.ProductTable.TABLE_NAME + " (" +
                 DatabaseSchema.ProductTable.PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -31,12 +31,11 @@ class ProductDatabaseHelper(context: Context?) :
         db.execSQL(createTableQuery)
 
     }
-
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Handle database schema changes here
     }
     fun getProductsByType(productType: String?): ArrayList<Product> {
-        Log.d("DatabaseHelper", "Query for type: $productType")
+        Log.d("ProductDatabaseHelper", "Query for type: $productType")
         val productList = ArrayList<Product>()
         val db = readableDatabase
         val projection = arrayOf(
@@ -90,8 +89,99 @@ class ProductDatabaseHelper(context: Context?) :
         }
 
         cursor.close()
-        Log.d("DatabaseHelper", "Found: ${productList.size} products")
+        Log.d("ProductDatabaseHelper", "Found: ${productList.size} products")
         return productList
+    }
+    fun getProductById(productId: Int): Product? {
+        Log.d("ProductDatabaseHelper", "Query for product with ID: $productId")
+        val db = readableDatabase
+        val projection = arrayOf(
+            DatabaseSchema.ProductTable.COLUMN_ID,
+            DatabaseSchema.ProductTable.COLUMN_TYPE,
+            DatabaseSchema.ProductTable.COLUMN_IMAGE_URL,
+            DatabaseSchema.ProductTable.COLUMN_PRICE,
+            DatabaseSchema.ProductTable.COLUMN_QUANTITY,
+            DatabaseSchema.ProductTable.COLUMN_COLOR
+        )
+        val selection = "${DatabaseSchema.ProductTable.PRIMARY_KEY} = ?"
+        val selectionArgs = arrayOf(productId.toString())
+
+        val cursor = db.query(
+            DatabaseSchema.ProductTable.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        var product: Product? = null
+
+        with(cursor) {
+            if (moveToFirst()) {
+                val id = getString(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_ID))
+                val type = getString(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_TYPE))
+                val imagePath = getString(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_IMAGE_URL))
+                val price = getDouble(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_PRICE))
+                val quantity = getInt(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_QUANTITY))
+                val color = getString(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_COLOR))
+
+                product = Product(id, type, imagePath, price, quantity, color)
+            }
+        }
+
+        cursor.close()
+        Log.d("ProductDatabaseHelper", "Found product: $product")
+        return product
+    }
+    fun getMissingProductIds(productIds: List<String>): List<String> {
+        val db = readableDatabase
+        val selection = "${DatabaseSchema.ProductTable.COLUMN_ID} IN (${productIds.joinToString()})"
+        val query = "SELECT ${DatabaseSchema.ProductTable.COLUMN_ID} FROM ${DatabaseSchema.ProductTable.TABLE_NAME} WHERE $selection"
+        val cursor = db.rawQuery(query, null)
+        val missingProductIds = mutableListOf<String>()
+        with(cursor) {
+            while (moveToNext()) {
+                val id = getString(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_ID))
+                missingProductIds.add(id)
+            }
+        }
+        cursor.close()
+        return missingProductIds
+    }
+
+    fun getProductKey(product: Product): Int {
+        val db = readableDatabase
+        val selection = "${DatabaseSchema.ProductTable.COLUMN_ID} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_TYPE} = ? AND " +
+                "${DatabaseSchema.ProductTable.COLUMN_COLOR} = ?"
+        val selectionArgs = arrayOf(
+            product.id,
+            product.type,
+            product.color
+        )
+        val projection = arrayOf(DatabaseSchema.ProductTable.PRIMARY_KEY)
+        val cursor = db.query(
+            DatabaseSchema.ProductTable.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        var productKey = -1
+        if (cursor.moveToFirst()) {
+            productKey = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseSchema.ProductTable.PRIMARY_KEY))
+        }
+
+        cursor.close()
+
+        Log.d("ProductDatabaseHelper", "Product key: $productKey") // Added logging
+
+        return productKey
     }
     fun addProductToDatabase(product: Product): Long {
         val db = writableDatabase
@@ -111,9 +201,9 @@ class ProductDatabaseHelper(context: Context?) :
         val newRowId = db.insert("product_table", null, values)
 
         if (newRowId != -1L) {
-            Log.d(ContentValues.TAG, "New product inserted successfully in row: $newRowId")
+            Log.d("ProductDatabaseHelper", "New product inserted successfully in row: $newRowId")
         } else {
-            Log.e(ContentValues.TAG, "Failed to insert new product")
+            Log.e("ProductDatabaseHelper", "Failed to insert new product")
         }
         return newRowId
     }
@@ -126,21 +216,6 @@ class ProductDatabaseHelper(context: Context?) :
             }
         }
         return addedEntries
-    }
-    fun getMissingProductIds(productIds: List<String>): List<String> {
-        val db = readableDatabase
-        val selection = "${DatabaseSchema.ProductTable.COLUMN_ID} IN (${productIds.joinToString()})"
-        val query = "SELECT ${DatabaseSchema.ProductTable.COLUMN_ID} FROM ${DatabaseSchema.ProductTable.TABLE_NAME} WHERE $selection"
-        val cursor = db.rawQuery(query, null)
-        val missingProductIds = mutableListOf<String>()
-        with(cursor) {
-            while (moveToNext()) {
-                val id = getString(getColumnIndexOrThrow(DatabaseSchema.ProductTable.COLUMN_ID))
-                missingProductIds.add(id)
-            }
-        }
-        cursor.close()
-        return missingProductIds
     }
     fun deleteProduct(product: Product): Boolean {
         val db = writableDatabase
@@ -162,7 +237,6 @@ class ProductDatabaseHelper(context: Context?) :
         db.close()
         return deletedRows > 0
     }
-
     fun updateProductQuantity(product: Product, updatedQuantity: Int): Boolean {
         val db = writableDatabase
 

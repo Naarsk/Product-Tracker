@@ -6,9 +6,11 @@
     <string name="nav_header_subtitle">leocruciani@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="action_language">Language</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_sale_calendar">Sale Calendar</string>
+    <string name="menu_product_manager">Product Manager</string>
 
     <!--Product List Strings    -->
     <string name="product_list">Product List</string>
@@ -26,9 +28,9 @@
     <string name="wallets">WALLETS</string>
     <string name="gloves">GLOVES</string>
     <string name="bags">BAGS</string>
+    <string name="date">DATE</string>
     <string name="id">ID</string>
     <!--Product Manager Strings    -->
-    <string name="menu_product_manager">Product Manager</string>
     <!--Edit Delete Product Strings    -->
     <string name="edit_or_delete_product">Edit or delete product</string>
     <string name="choose_option">Choose an option</string>
@@ -42,4 +44,10 @@
     <string name="take_picture">Take Picture</string>
     <string name="product_created_success">Product has been created successfully</string>
     <string name="product_creation_failed">Product creation has failed</string>
+    <!--Product Activity toasts -->
+    <string name="toast_not_enough_quantity">Not enough quantity available</string>
+    <string name="toast_product_sold_success">Product sold successfully!</string>
+    <string name="toast_failed_update_quantity">Failed to update product quantity</string>
+    <string name="toast_failed_record_sale">Failed to record sale</string>
+    <string name="toast_product_added_success">Product added successfully!</string>
 </resources>

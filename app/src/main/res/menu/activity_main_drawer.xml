@@ -12,5 +12,9 @@
             android:id="@+id/nav_manage_product"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_product_manager" />
+        <item
+            android:id="@+id/nav_sale_calendar"
+            android:icon="@drawable/ic_menu_calendar"
+            android:title="@string/menu_sale_calendar" />
     </group>
 </menu>

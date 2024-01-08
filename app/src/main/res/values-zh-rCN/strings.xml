@@ -6,9 +6,10 @@
     <string name="nav_header_subtitle">leocruciani\@gmail.com</string>
     <string name="nav_header_desc">导航标题</string>
     <string name="action_settings">设置</string>
+    <string name="action_language">语文</string>
 
-    <string name="menu_home">家</string>
-    <string name="menu_slideshow">幻灯片</string>
+    <string name="menu_home">主页</string>
+    <string name="menu_sale_calendar">销售日历</string>
 
     <!--Product List Strings    -->
     <string name="product_list">产品列表</string>
@@ -42,4 +43,12 @@
     <string name="take_picture">拍照片</string>
     <string name="product_created_success">产品创建成功</string>
     <string name="product_creation_failed">产品创建失败</string>
+    <!--Product Activity toasts -->
+    <string name="toast_not_enough_quantity">数量不足</string>
+    <string name="toast_product_sold_success">产品销售成功！</string>
+    <string name="toast_failed_update_quantity">无法更新产品数量</string>
+    <string name="toast_failed_record_sale">无法记录销售</string>
+    <string name="toast_product_added_success">产品添加成功！</string>
+    <string name="date">日期</string>
+
 </resources>

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -15,7 +16,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
 import com.example.product_tracker.database.ProductDatabaseHelper
+import com.example.product_tracker.database.SaleDatabaseHelper
 import com.example.product_tracker.model.Product
+import com.example.product_tracker.model.Sale
+import java.util.Date
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var product: Product
@@ -60,28 +64,48 @@ class ProductActivity : AppCompatActivity() {
         val sellQuantity = inputSell.text.toString().toIntOrNull() ?: 1
 
         if (sellQuantity > product.quantity) {
-            Toast.makeText(this, "Not enough quantity available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.toast_not_enough_quantity, Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Update product quantity in the database
-        val dbHelper = ProductDatabaseHelper(this)
-        val updatedQuantity = product.quantity - sellQuantity
-        val success = dbHelper.updateProductQuantity(product, updatedQuantity)
+        // Define Sale object
+        val sale = Sale(
+            product = product,
+            quantity = sellQuantity,
+            price = product.price,
+            date = Date()
+        )
 
-        if (success) {
-            // Display success message
-            Toast.makeText(this, "Product sold successfully!", Toast.LENGTH_SHORT).show()
-            // Finish the activity
-            val intent = Intent()
-            intent.putExtra(EXTRA_PRODUCT_UPDATED, true)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+        val saleDbHelper = SaleDatabaseHelper(this)
+        val saleId = saleDbHelper.addSaleToDatabase(sale)
+
+        if (saleId != -1L) {
+            // Update product quantity in the database
+            val productDbHelper = ProductDatabaseHelper(this)
+            val updatedQuantity = product.quantity - sellQuantity
+            val success = productDbHelper.updateProductQuantity(product, updatedQuantity)
+            Log.i("SellProduct", "Sale added to the sale database")
+
+            if (success) {
+                // Display success message
+                Toast.makeText(this, R.string.toast_product_sold_success, Toast.LENGTH_SHORT).show()
+                Log.i("SellProduct", "Updated product quantity in the product database")
+
+                // Finish the activity
+                val intent = Intent()
+                intent.putExtra(EXTRA_PRODUCT_UPDATED, true)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            } else {
+                // Display failure message
+                Toast.makeText(this, R.string.toast_failed_update_quantity, Toast.LENGTH_SHORT).show()
+                Log.e("SellProduct", "Failed to update product quantity in the database")
+            }
         } else {
             // Display failure message
-            Toast.makeText(this, "Failed to update product quantity", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.toast_failed_record_sale, Toast.LENGTH_SHORT).show()
+            Log.e("SellProduct", "Failed to add sale to the database")
         }
-
     }
 
     private fun addProduct() {
@@ -95,7 +119,7 @@ class ProductActivity : AppCompatActivity() {
 
         if (success && addQuantity > 0) {
             // Display success message
-            Toast.makeText(this, "Product added successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.toast_product_added_success, Toast.LENGTH_SHORT).show()
             // Finish the activity
             val intent = Intent()
             intent.putExtra(EXTRA_PRODUCT_UPDATED, true)
@@ -103,7 +127,7 @@ class ProductActivity : AppCompatActivity() {
             finish()
         } else {
             // Display failure message
-            Toast.makeText(this, "Failed to update product quantity", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.toast_failed_update_quantity, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -6,8 +6,12 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,13 +19,15 @@ import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.product_tracker.database.ProductDatabaseHelper
+import com.example.product_tracker.database.SaleDatabaseHelper
 import com.example.product_tracker.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
+import com.example.product_tracker.ui.menu.LanguageChangeHandler
+
 
 class MainActivity : AppCompatActivity() {
     private var mAppBarConfiguration: AppBarConfiguration? = null
-    private lateinit var dbHelper: ProductDatabaseHelper
-
+    private lateinit var languageChangeHandler: LanguageChangeHandler
+    private lateinit var toolbar: Toolbar
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -30,11 +36,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.appBarMain.toolbar)
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
         val drawer = binding.drawerLayout
         val navigationView = binding.navView
 
@@ -42,69 +47,106 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = AppBarConfiguration.Builder(
             R.id.nav_home, R.id.nav_manage_product).setOpenableLayout(drawer).build()
+
         val navController = findNavController(this, R.id.nav_host_fragment_content_main)
         setupActionBarWithNavController(this, navController, mAppBarConfiguration!!)
         setupWithNavController(navigationView, navController)
 
         // Check for permissions
-        checkAskPermission()
+        checkPermission(
+            Manifest.permission.READ_MEDIA_IMAGES, READ_IMAGES_PERMISSION_CODE)
 
-        // Initialize the database helper
-        dbHelper = ProductDatabaseHelper(this)
+        // Initialize the databases
+        initializeDatabases()
 
-        // Check if the database is already present and create the database if it doesn't exist
-        val dbPath = getDatabasePath(ProductDatabaseHelper.DATABASE_NAME).absolutePath
-        val dbExists = checkDatabaseExists(dbPath)
-        if (!dbExists) {
-            createDatabase()
-            Log.d("MainActivity", "Database created at path: $dbPath")
-        } else {
-            Log.d("MainActivity", "Database already present at path: $dbPath")
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+        // Initialize the language change handler
+        languageChangeHandler = LanguageChangeHandler(this)
+
+        // Assuming you have a reference to the menu item in your activity or fragment
+        val languageMenuItem: MenuItem = menu.findItem(R.id.action_language)
+
+        // Set a click listener for the language menu item
+        languageMenuItem.setOnMenuItemClickListener { item ->
+            val languageChangeHandler = LanguageChangeHandler(this)
+            languageChangeHandler.handleLanguageChange(item, toolbar)
+            true
+        }
         return true
     }
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        languageChangeHandler.handleLanguageChange(item, toolbar)
+        return super.onOptionsItemSelected(item)
+    }
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(this, R.id.nav_host_fragment_content_main)
         return (navigateUp(navController, mAppBarConfiguration!!)
                 || super.onSupportNavigateUp())
     }
-
-    private fun checkDatabaseExists(dbPath: String): Boolean {
-        val dbFile = getDatabasePath(dbPath)
-        return dbFile.exists()
-    }
-
-    private fun createDatabase() {
-        dbHelper.writableDatabase
-    }
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun askPermission() {
-        Manifest.permission.READ_MEDIA_IMAGES
-        val permission =
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            Log.d("MainActivity", "Permission READ_MEDIA_IMAGES denied")
-            finish()
-        } else {
-            Log.d("MainActivity", "Permission READ_MEDIA_IMAGES granted")
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this@MainActivity, "Camera Permission Granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this@MainActivity, "Camera Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        } else if (requestCode == READ_IMAGES_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this@MainActivity, "Storage Permission Granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this@MainActivity, "Storage Permission Denied", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun checkAskPermission(){
-    val permission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
-    if(permission == PackageManager.PERMISSION_GRANTED){
-        Log.d("MainActivity", "Permission READ_MEDIA_IMAGES already granted")
+    // Function to check and request permissions
+    private fun checkPermission(permission: String, requestCode: Int) {
+        if (ContextCompat.checkSelfPermission(this@MainActivity, permission) == PackageManager.PERMISSION_DENIED) {
+            // Requesting the permission
+            Log.d("MainActivity", "Requesting permission")
+            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission), requestCode)
+        } else {
+            Log.d("MainActivity", "Permission already granted")
+        }
     }
-    else{
-        Log.d("MainActivity", "Asking for permission READ_EXTERNAL_STORAGE")
-        askPermission()}
+    private fun initializeDatabases() {
+        fun checkDatabaseExists(dbPath: String): Boolean {
+            val dbFile = getDatabasePath(dbPath)
+            return dbFile.exists()
+        }
+        // Initialize the database helpers
+        val productDbHelper = ProductDatabaseHelper(this)
+        val saleDbHelper = SaleDatabaseHelper(this)
+
+        // Check if the product database is already present and create it if it doesn't exist
+        val productDbPath = getDatabasePath(ProductDatabaseHelper.DATABASE_NAME).absolutePath
+        val productDbExists = checkDatabaseExists(productDbPath)
+        if (!productDbExists) {
+            productDbHelper.writableDatabase
+            Log.d("MainActivity", "Product database created at path: $productDbPath")
+        } else {
+            Log.d("MainActivity", "Product database already present at path: $productDbPath")
+        }
+
+        // Check if the sale database is already present and create it if it doesn't exist
+        val saleDbPath = getDatabasePath(SaleDatabaseHelper.DATABASE_NAME).absolutePath
+        val saleDbExists = checkDatabaseExists(saleDbPath)
+        if (!saleDbExists) {
+            saleDbHelper.writableDatabase
+            Log.d("MainActivity", "Sale database created at path: $saleDbPath")
+        } else {
+            Log.d("MainActivity", "Sale database already present at path: $saleDbPath")
+        }
+    }
+    companion object {
+        private const val CAMERA_PERMISSION_CODE = 100
+        private const val READ_IMAGES_PERMISSION_CODE = 101
     }
 }

@@ -6,9 +6,10 @@
     <string name="nav_header_subtitle">leocruciani\@gmail.com</string>
     <string name="nav_header_desc">Intestazione di navigazione</string>
     <string name="action_settings">Impostazioni</string>
+    <string name="action_language">Lingua</string>
 
     <string name="menu_home">Casa</string>
-    <string name="menu_slideshow">Presentazione</string>
+    <string name="menu_sale_calendar">Vendite</string>
 
     <!--Product List Strings    -->
     <string name="product_list">Elenco prodotti</string>
@@ -42,5 +43,13 @@
     <string name="take_picture">Fare una foto</string>
     <string name="product_created_success">Prodotto creato con successo!</string>
     <string name="product_creation_failed">Creazione del prodotto fallita</string>
+    <!--Product Activity toasts -->
+    <string name="toast_not_enough_quantity">Quantità non disponibile</string>
+    <string name="toast_product_sold_success">Prodotto venduto con successo!</string>
+    <string name="toast_failed_update_quantity">Impossibile aggiornare la quantità del prodotto</string>
+    <string name="toast_failed_record_sale">Impossibile registrare la vendita</string>
+    <string name="toast_product_added_success">Prodotto aggiunto con successo!</string>
+    <string name="date">DATA</string>
+
 
 </resources>
