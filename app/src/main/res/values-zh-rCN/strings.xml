@@ -25,9 +25,22 @@
     <string name="number">数字</string>
     <string name="todo">全部</string>
     <string name="wallets">钱包</string>
-    <string name="gloves">手套</string>
+    <string name="gloves_scarfs">手套/围巾</string>
+    <string name="suitcases">手提箱</string>
+    <string name="belts">手套</string>
+    <string name="accessories">配饰</string>
     <string name="bags">包</string>
     <string name="id">ID</string>
+
+    <string-array name="allowed_types">
+        <item>包</item>
+        <item>钱包</item>
+        <item>手套</item>
+        <item>手套/围巾</item>
+        <item>手提箱</item>
+        <item>配饰</item>
+    </string-array>
+
     <!--Product Manager Strings    -->
     <string name="menu_product_manager">产品管理</string>
     <!--Edit Delete Product Strings    -->

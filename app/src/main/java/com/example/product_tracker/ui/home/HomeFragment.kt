@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import com.example.product_tracker.R
 import com.example.product_tracker.databinding.FragmentHomeBinding
+import com.example.product_tracker.model.ProductTypeMapper
 
 class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
@@ -19,32 +20,26 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
-        val button1 = root.findViewById<ImageButton>(R.id.button_bags)
-        val button2 = root.findViewById<ImageButton>(R.id.button_gloves)
-        val button3 = root.findViewById<ImageButton>(R.id.button_wallets)
-        button1.setOnClickListener {
-            // Handle button1 click event
-            // Display products with type "bags" using a gallery
-            Log.d("HomeFragment", "bag button clicked")
-            val intent = Intent(requireContext(), ProductListActivity::class.java)
-            intent.putExtra("productType", "bag")
-            startActivity(intent)
-        }
 
-        button2.setOnClickListener {
-            // Handle button2 click event
-            // Display products with type "gloves" using a gallery
-            val intent = Intent(requireContext(), ProductListActivity::class.java)
-            intent.putExtra("productType", "gloves")
-            startActivity(intent)
+        val typeValues = ProductTypeMapper(requireContext()).getAllTypeValues()
 
-        }
-        button3.setOnClickListener {
-            // Handle button3 click event
-            // Display products with type "wallets" using a gallery
-            val intent = Intent(requireContext(), ProductListActivity::class.java)
-            intent.putExtra("productType", "wallet")
-            startActivity(intent)
+        val buttons = listOf(
+            Pair(R.id.button_bags, typeValues[0]),
+            Pair(R.id.button_wallets, typeValues[1]),
+            Pair(R.id.button_gloves, typeValues[2]),
+            Pair(R.id.button_suitcases,typeValues[3]),
+            Pair(R.id.button_belts, typeValues[4]),
+            Pair(R.id.button_accessories, typeValues[5])
+        )
+
+        buttons.forEach { (buttonId, productType) ->
+            val button = root.findViewById<ImageButton>(buttonId)
+            button.setOnClickListener {
+                Log.d("HomeFragment", "$productType button clicked")
+                val intent = Intent(requireContext(), ProductListActivity::class.java)
+                intent.putExtra("productType", productType)
+                startActivity(intent)
+            }
         }
         return root
     }

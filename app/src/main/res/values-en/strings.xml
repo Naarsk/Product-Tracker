@@ -26,9 +26,22 @@
     <string name="number">Number</string>
     <string name="todo">ALL</string>
     <string name="wallets">WALLETS</string>
-    <string name="gloves">GLOVES</string>
+    <string name="gloves_scarfs">GLOVES &amp; SCARFS</string>
+    <string name="suitcases">SUITCASES</string>
+    <string name="belts">BELTS</string>
+    <string name="accessories">ACCESSORIES</string>
     <string name="bags">BAGS</string>
     <string name="id">ID</string>
+
+    <string-array name="allowed_types">
+        <item>bag</item>
+        <item>wallet</item>
+        <item>gloves/scarf</item>
+        <item>suitcase</item>
+        <item>belt</item>
+        <item>accessory</item>
+    </string-array>
+
     <!--Product Manager Strings    -->
     <!--Edit Delete Product Strings    -->
     <string name="edit_or_delete_product">Edit or delete product</string>

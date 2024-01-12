@@ -14,6 +14,7 @@ class LanguageChangeHandler(private val context: Context) {
 
     companion object {
         private const val TAG = "LanguageChangeHandler"
+        const val PREF_KEY_LANGUAGE = "language"
     }
 
     object LanguageManager {
@@ -62,6 +63,11 @@ class LanguageChangeHandler(private val context: Context) {
 
     private fun changeLanguage(languageCode: String) {
         LanguageManager.setAppLanguage(context, languageCode)
+
+        // Store the selected language preference
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString(PREF_KEY_LANGUAGE, languageCode).apply()
+
         // Restart the app to apply the language change
         restartApp()
     }

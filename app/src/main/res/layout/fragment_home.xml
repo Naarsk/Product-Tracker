@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.product_tracker.ui.home.HomeFragment"
-    android:id="@+id/fragmentHome">
+    tools:context="com.example.product_tracker.ui.home.HomeFragment">
 
     <ImageButton
         android:id="@+id/button_bags"
@@ -14,24 +14,82 @@
         android:contentDescription="@string/bags"
         android:scaleType="centerCrop"
         android:src="@raw/bags"
-        app:layout_constraintBottom_toTopOf="@+id/button_gloves"
+        app:layout_constraintBottom_toTopOf="@+id/button_suitcases"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@null"
+        />
     <TextView
         android:id="@+id/text_bags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/bags"
-        android:textSize="70sp"
+        android:textSize="@dimen/home_text_size"
         android:textStyle="bold"
         android:textColor="@color/beige"
         app:layout_constraintBottom_toBottomOf="@+id/button_bags"
         app:layout_constraintEnd_toEndOf="@+id/button_bags"
         app:layout_constraintStart_toStartOf="@+id/button_bags"
-        app:layout_constraintTop_toTopOf="@+id/button_bags" />
+        app:layout_constraintTop_toTopOf="@+id/button_bags"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="@dimen/home_text_size" />
+
+    <ImageButton
+        android:id="@+id/button_suitcases"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@raw/suitcases"
+        app:layout_constraintBottom_toTopOf="@+id/button_belts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_bags"
+        android:contentDescription="@string/suitcases"
+        android:background="@null"/>
+    <TextView
+        android:id="@+id/text_suitcases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:autoSizeMaxTextSize="@dimen/home_text_size"
+        android:autoSizeTextType="uniform"
+        android:text="@string/suitcases"
+        android:textColor="@color/beige"
+        android:textSize="@dimen/home_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/button_suitcases"
+        app:layout_constraintEnd_toEndOf="@+id/button_suitcases"
+        app:layout_constraintStart_toStartOf="@+id/button_suitcases"
+        app:layout_constraintTop_toTopOf="@+id/button_suitcases" />
+
+    <ImageButton
+        android:id="@+id/button_belts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@raw/belts"
+        app:layout_constraintBottom_toTopOf="@+id/button_gloves"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_suitcases"
+        android:contentDescription="@string/belts"
+        android:background="@null" />
+    <TextView
+        android:id="@+id/text_belts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:autoSizeMaxTextSize="@dimen/home_text_size"
+        android:autoSizeTextType="uniform"
+        android:text="@string/belts"
+        android:textColor="@color/beige"
+        android:textSize="@dimen/home_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/button_belts"
+        app:layout_constraintEnd_toEndOf="@+id/button_belts"
+        app:layout_constraintStart_toStartOf="@+id/button_belts"
+        app:layout_constraintTop_toTopOf="@+id/button_belts" />
 
     <ImageButton
         android:id="@+id/button_gloves"
@@ -39,24 +97,54 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@raw/gloves"
-        app:layout_constraintBottom_toTopOf="@+id/button_wallets"
+        app:layout_constraintBottom_toTopOf="@+id/button_accessories"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_bags"
-        android:contentDescription="@string/gloves" />
-
+        app:layout_constraintTop_toBottomOf="@+id/button_belts"
+        android:contentDescription="@string/gloves_scarfs"
+        android:background="@null"/>
     <TextView
         android:id="@+id/text_gloves"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/gloves"
-        android:textSize="70sp"
-        android:textStyle="bold"
+        android:gravity="center"
+        android:autoSizeMaxTextSize="@dimen/home_text_size"
+        android:autoSizeTextType="uniform"
+        android:text="@string/gloves_scarfs"
         android:textColor="@color/beige"
+        android:textSize="@dimen/home_text_size"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/button_gloves"
         app:layout_constraintEnd_toEndOf="@+id/button_gloves"
         app:layout_constraintStart_toStartOf="@+id/button_gloves"
         app:layout_constraintTop_toTopOf="@+id/button_gloves" />
+
+    <ImageButton
+        android:id="@+id/button_accessories"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@raw/accessories"
+        app:layout_constraintBottom_toTopOf="@+id/button_wallets"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_gloves"
+        android:contentDescription="@string/accessories"
+        android:background="@null" />
+    <TextView
+        android:id="@+id/text_accessories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accessories"
+        android:textSize="@dimen/home_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/beige"
+        app:layout_constraintBottom_toBottomOf="@+id/button_accessories"
+        app:layout_constraintEnd_toEndOf="@+id/button_accessories"
+        app:layout_constraintStart_toStartOf="@+id/button_accessories"
+        app:layout_constraintTop_toTopOf="@+id/button_accessories"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="@dimen/home_text_size" />
 
     <ImageButton
         android:id="@+id/button_wallets"
@@ -67,20 +155,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_gloves"
-        android:contentDescription="@string/wallets" />
-
+        app:layout_constraintTop_toBottomOf="@+id/button_accessories"
+        android:contentDescription="@string/wallets"
+        android:background="@null"/>
     <TextView
         android:id="@+id/text_wallets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wallets"
-        android:textSize="70sp"
+        android:textSize="@dimen/home_text_size"
         android:textStyle="bold"
         android:textColor="@color/beige"
         app:layout_constraintBottom_toBottomOf="@+id/button_wallets"
         app:layout_constraintEnd_toEndOf="@+id/button_wallets"
         app:layout_constraintStart_toStartOf="@+id/button_wallets"
-        app:layout_constraintTop_toTopOf="@+id/button_wallets" />
+        app:layout_constraintTop_toTopOf="@+id/button_wallets"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="@dimen/home_text_size" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

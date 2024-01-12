@@ -8,7 +8,7 @@
     <string name="action_settings">Impostazioni</string>
     <string name="action_language">Lingua</string>
 
-    <string name="menu_home">Casa</string>
+    <string name="menu_home">Categorie</string>
     <string name="menu_sale_calendar">Vendite</string>
 
     <!--Product List Strings    -->
@@ -25,9 +25,23 @@
     <string name="number">Numero</string>
     <string name="todo">TUTTO</string>
     <string name="wallets">PORTAFOGLI</string>
-    <string name="gloves">GUANTI</string>
     <string name="bags">BORSE</string>
+    <string name="gloves_scarfs">GUANTI E SCIARPE</string>
+    <string name="suitcases">VALIGIE</string>
+    <string name="belts">CINTURE</string>
+    <string name="accessories">ACCESSORI</string>
     <string name="id">ID</string>
+
+    <string-array name="allowed_types">
+        <item>borsa</item>
+        <item>portafoglio</item>
+        <item>guanti/sciarpa</item>
+        <item>valigia</item>
+        <item>cintura</item>
+        <item>accessorio</item>
+    </string-array>
+
+
     <!--Product Manager Strings    -->
     <string name="menu_product_manager">Gestione prodotti</string>
     <!--Edit Delete Product Strings    -->
@@ -37,7 +51,7 @@
     <string name="delete_option">Eliminare</string>
     <!--Create New Product Strings    -->
     <string name="create_new_product">Crea un nuovo prodotto</string>
-    <string name="create">CREARE</string>
+    <string name="create">CREA</string>
     <string name="select_picture">Seleziona Immagine</string>
     <string name="select_from_gallery">Seleziona dalla Galleria</string>
     <string name="take_picture">Fare una foto</string>

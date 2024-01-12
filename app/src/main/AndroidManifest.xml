@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".ui.home.ProductListActivity"
-            android:label="Existing products" />
+            android:label="Product List" />
         <activity
             android:name=".ui.home.ProductActivity"
             android:label="Product" />
@@ -45,6 +45,7 @@
             android:label="Existing products" />
         <activity
             android:name=".ui.product_manager.CreateNewProductActivity"
+            android:label="Create new product"
             android:exported="false" />
 
         <provider

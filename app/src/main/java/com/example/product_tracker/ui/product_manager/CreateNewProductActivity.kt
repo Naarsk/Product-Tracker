@@ -25,6 +25,7 @@ import com.example.product_tracker.R
 import com.example.product_tracker.Utils
 import com.example.product_tracker.database.ProductDatabaseHelper
 import com.example.product_tracker.model.Product
+import com.example.product_tracker.model.ProductTypeMapper
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -53,8 +54,10 @@ class CreateNewProductActivity : AppCompatActivity() {
         val createNewProductButton: Button = findViewById(R.id.createNewProductButton)
 
         // Create an ArrayAdapter to populate the spinner with the values:
-        val typeValues = arrayOf("bag", "wallet", "gloves")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, typeValues)
+        val typeValues = ProductTypeMapper(this).getAllTypeValues()
+        val translatedTypeValues = ProductTypeMapper(this).getAllTranslatedTypeValues()
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, translatedTypeValues)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         loadTypeSpinner.adapter = adapter
 
@@ -71,14 +74,13 @@ class CreateNewProductActivity : AppCompatActivity() {
         createNewProductButton.setOnClickListener {
             // Retrieve the values from the EditText fields
             val price: String = loadPriceTextView.text.toString()
-            val type: String = loadTypeSpinner.selectedItem.toString()
+            val type: String = typeValues[loadTypeSpinner.selectedItemPosition]
             val color: String = loadColorTextView.text.toString()
             val quantity: String = loadQuantityTextView.text.toString()
             val id: String = loadIdTextView.text.toString()
 
             // Create a Product instance with the values
             val product = Product(id, type, selectedImagePath, price.toDouble(), quantity.toInt(), color)
-
             // Insert the values into the database
             val dbHelper = ProductDatabaseHelper(this)
             val newRowId = dbHelper.addProductToDatabase(product)

@@ -1,6 +1,7 @@
 package com.example.product_tracker
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -32,6 +33,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         Log.d("MainActivity", "Call onCreate")
+
+        // Retrieve the stored language preference
+        val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val selectedLanguage = sharedPreferences.getString(LanguageChangeHandler.PREF_KEY_LANGUAGE, "default_language")
+
+        // Apply the selected language to the app's configuration
+        if (selectedLanguage != null) {
+            Log.d("MainActivity", "Found language: $selectedLanguage")
+            LanguageChangeHandler.LanguageManager.setAppLanguage(this, selectedLanguage)
+        }else{
+            Log.e("MainActivity", "No saved language")
+        }
 
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -87,9 +100,7 @@ class MainActivity : AppCompatActivity() {
         return (navigateUp(navController, mAppBarConfiguration!!)
                 || super.onSupportNavigateUp())
     }
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == CAMERA_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -131,6 +142,9 @@ class MainActivity : AppCompatActivity() {
         if (!productDbExists) {
             productDbHelper.writableDatabase
             Log.d("MainActivity", "Product database created at path: $productDbPath")
+            // Store the selected language preference
+
+
         } else {
             Log.d("MainActivity", "Product database already present at path: $productDbPath")
         }
