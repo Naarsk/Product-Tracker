@@ -37,9 +37,9 @@ class ProductAdapter(
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
-        val productName: String = product.color + " " + product.type
+        val productId: String = product.id
 
-        holder.productNameView.text = productName
+        holder.productNameView.text = productId
         Glide.with(context)
             .load(product.imagePath)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -50,7 +50,7 @@ class ProductAdapter(
 
         holder.productImageView.setOnClickListener {
             val intent = Intent(context, ProductActivity::class.java)
-            intent.putExtra("name", productName)
+            intent.putExtra("name", productId)
             intent.putExtra("product", product)
             (context as AppCompatActivity).startActivityForResult(intent, REQUEST_CODE_PRODUCT)
         }
