@@ -1,5 +1,7 @@
 package com.example.product_tracker.ui.sale_calendar
 
+// TODO: add switch to list view
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log

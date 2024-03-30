@@ -21,6 +21,9 @@
         android:theme="@style/Theme.product_tracker"
         tools:targetApi="31">
         <activity
+            android:name=".ui.user_management.SelectUser"
+            android:exported="false" />
+        <activity
             android:name=".ui.sale_calendar.SaleCalendarActivity"
             android:exported="false" />
         <activity
@@ -45,8 +48,8 @@
             android:label="Existing products" />
         <activity
             android:name=".ui.product_manager.CreateNewProductActivity"
-            android:label="Create new product"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Create new product" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
