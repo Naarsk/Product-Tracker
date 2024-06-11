@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
@@ -61,7 +62,8 @@ class MainActivity : AppCompatActivity() {
         mAppBarConfiguration = AppBarConfiguration.Builder(
             R.id.nav_home, R.id.nav_manage_product).setOpenableLayout(drawer).build()
 
-        val navController = findNavController(this, R.id.nav_host_fragment_content_main)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
         setupActionBarWithNavController(this, navController, mAppBarConfiguration!!)
         setupWithNavController(navigationView, navController)
 
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(this, R.id.nav_host_fragment_content_main)
+        val navController = findNavController(this, R.id.nav_host_fragment)
         return (navigateUp(navController, mAppBarConfiguration!!)
                 || super.onSupportNavigateUp())
     }
