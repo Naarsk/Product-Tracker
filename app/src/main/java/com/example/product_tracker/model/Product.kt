@@ -1,12 +1,17 @@
-package com.example.product_tracker.model
 
-import java.io.Serializable
 
-class Product(
-    var id: String,
+@Entity(tableName = "products")
+data class Product(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0, // Internal primary key
+    var code: String, // Original product ID
     var type: String,
     var imagePath: String,
     var price: Double,
     var quantity: Int,
-    var color: String
-) : Serializable
+    var color: String,
+    @ColumnInfo(name = "created_at")
+    var createdAt: Date = Date(),
+    @ColumnInfo(name = "updated_at")
+    var updatedAt: Date = Date()
+)
