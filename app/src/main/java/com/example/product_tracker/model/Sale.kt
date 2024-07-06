@@ -1,5 +1,8 @@
 package com.example.product_tracker.model
-
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.ForeignKey
 
 import Product
 import java.util.Date
