@@ -2,7 +2,6 @@ package com.example.product_tracker.model
 
 
 import Product
-import androidx.room.ForeignKey
 import java.util.Date
 
 @Entity(tableName = "sales", foreignKeys = [

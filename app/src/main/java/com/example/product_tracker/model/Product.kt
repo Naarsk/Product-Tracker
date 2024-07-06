@@ -1,3 +1,4 @@
+import androidx.room.Entity
 
 
 @Entity(tableName = "products")
