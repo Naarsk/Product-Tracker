@@ -11,7 +11,7 @@ import androidx.room.Query
 @Dao
 interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE) // Handle conflicts (e.g., replace on duplicate)
-    fun insertProduct(product: Product)
+    fun insertProduct(product: Product): Long
 
     @Delete
     fun deleteProduct(id: Int)

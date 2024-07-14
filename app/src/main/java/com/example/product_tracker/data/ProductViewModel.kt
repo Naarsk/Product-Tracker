@@ -2,6 +2,7 @@ package com.example.product_tracker.data
 
 import Product
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.product_tracker.MainApplication
@@ -16,14 +17,28 @@ class ProductViewModel : ViewModel() {
 
     val productList : LiveData<List<Product>> = productDao.getAllProduct()
 
-    fun createNewProduct(code : String, type : String, imagePath : String, price : Double, quantity : Int, color : String){
 
-        viewModelScope.launch(Dispatchers.IO) { // Run on a background thread
-            val product = Product(code = code, type = type, imagePath = imagePath, price = price, quantity = quantity, color = color,createdAt = Date.from(Instant.now()), updatedAt = Date.from(Instant.now())
+    private val _productCreationResult = MutableLiveData<Boolean>()
+    val productCreationResult: LiveData<Boolean> = _productCreationResult
+
+
+    fun createNewProduct(code: String, type: String, imagePath: String, price: Double, quantity: Int, color: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val product = Product(
+                code = code,
+                type = type,
+                imagePath = imagePath,
+                price = price,
+                quantity = quantity,
+                color = color, createdAt = Date.from(Instant.now()),
+                updatedAt = Date.from(Instant.now())
             )
-            productDao.insertProduct(product)
+            val newRowId = productDao.insertProduct(product)
+            _productCreationResult.postValue(newRowId != -1L)
         }
     }
+
+
 
     fun deleteProduct(id : Int){
         productDao.deleteProduct(id = id)
@@ -36,8 +51,12 @@ class ProductViewModel : ViewModel() {
             val updatedQuantity = oldQuantity + addQuantity
 
             productDao.updateProductQuantity(productId = id, updatedQuantity = updatedQuantity)
-        
+
         }
 
     }
+
+
+
+
 }

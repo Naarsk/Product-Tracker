@@ -23,13 +23,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
 import com.example.product_tracker.Utils
-import com.example.product_tracker.database.ProductDatabaseHelper
-import com.example.product_tracker.model.Product
+import com.example.product_tracker.data.ProductViewModel
 import com.example.product_tracker.model.ProductTypeMapper
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+private const val s = "Product created successfully"
 
 class CreateNewProductActivity : AppCompatActivity() {
 
@@ -77,23 +78,21 @@ class CreateNewProductActivity : AppCompatActivity() {
             val type: String = typeValues[loadTypeSpinner.selectedItemPosition]
             val color: String = loadColorTextView.text.toString()
             val quantity: String = loadQuantityTextView.text.toString()
-            val id: String = loadIdTextView.text.toString()
+            val code: String = loadIdTextView.text.toString()
 
-            // Create a Product instance with the values
-            val product = Product(id, type, selectedImagePath, price.toDouble(), quantity.toInt(), color)
-            // Insert the values into the database
-            val dbHelper = ProductDatabaseHelper(this)
-            val newRowId = dbHelper.addProductToDatabase(product)
-            if (newRowId != -1L) {
-                // Display success message
-                Toast.makeText(this, getString(R.string.product_created_success), Toast.LENGTH_SHORT).show()
-                // Return to ProductManagerFragment
-                finish()
-            } else {
-                // Display failure message
-                Toast.makeText(this, getString(R.string.product_creation_failed), Toast.LENGTH_SHORT).show()
-                finish()
+            // Create a Product instance with the values and insert the values into the database
+            val productViewModel = ProductViewModel()
+            // Trigger product creation
+            productViewModel.createNewProduct(code, type, selectedImagePath, price.toDouble(), quantity.toInt(), color)
+
+            // Observe the result
+            productViewModel.productCreationResult.observe(this) { isSuccessful ->
+                if (isSuccessful) {Toast.makeText(this, R.string.product_created_success, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, R.string.product_creation_failed, Toast.LENGTH_SHORT).show()
+                }
             }
+
         }
     }
 

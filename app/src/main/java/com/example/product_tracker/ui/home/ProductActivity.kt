@@ -1,35 +1,35 @@
 package com.example.product_tracker.ui.home
 
+import Product
 import android.app.Activity
-import android.content.Intent
-import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
-
-import com.example.product_tracker.model.Sale
+import com.example.product_tracker.data.ProductViewModel
+import kotlinx.coroutines.launch
 import java.util.Date
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var product: Product
+    private val productViewModel: ProductViewModel by viewModels()
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    override fun onCreate(savedInstanceState: Bundle?) {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-        val productName = intent.getStringExtra("name")
-        product = intent.getSerializableExtra("product") as Product
 
-        supportActionBar?.title = productName
+        product = intent.getSerializableExtra("product") as Product
+        supportActionBar?.title = product.name
+
         // Load product image
         val productImageView = findViewById<ImageView>(R.id.productImageView)
         Glide.with(this)
@@ -38,6 +38,7 @@ class ProductActivity : AppCompatActivity() {
             .skipMemoryCache(true)
             .fitCenter()
             .into(productImageView)
+
         val priceTextView = findViewById<TextView>(R.id.priceTextView)
         priceTextView.text = product.price.toString()
         val quantityTextView = findViewById<TextView>(R.id.quantityTextView)
@@ -54,6 +55,21 @@ class ProductActivity : AppCompatActivity() {
         val addButton = findViewById<Button>(R.id.button_add)
         addButton.setOnClickListener {
             addProduct()
+        }
+
+        // Observe LiveData from ViewModel (if needed)
+        productViewModel.productUpdateResult.observe(this) { success ->
+            if (success) {
+                // Handle successful update (e.g., show Toast, finish activity)
+                Toast.makeText(this, R.string.toast_product_updated, Toast.LENGTH_SHORT).show()
+                val intent = Intent()
+                intent.putExtra(EXTRA_PRODUCT_UPDATED, true)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            } else {
+                // Handle update failure (e.g., show error message)
+                Toast.makeText(this, R.string.toast_failed_update, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -74,35 +90,12 @@ class ProductActivity : AppCompatActivity() {
             date = Date()
         )
 
-        val saleDbHelper = SaleDatabaseHelper(this)
-        val saleId = saleDbHelper.addSaleToDatabase(sale)
-
-        if (saleId != -1L) {
-            // Update product quantity in the database
-            val productDbHelper = ProductDatabaseHelper(this)
-            val updatedQuantity = product.quantity - sellQuantity
-            val success = productDbHelper.updateProductQuantity(product, updatedQuantity)
-            Log.i("SellProduct", "Sale added to the sale database")
-
-            if (success) {
-                // Display success message
-                Toast.makeText(this, R.string.toast_product_sold_success, Toast.LENGTH_SHORT).show()
-                Log.i("SellProduct", "Updated product quantity in the product database")
-
-                // Finish the activity
-                val intent = Intent()
-                intent.putExtra(EXTRA_PRODUCT_UPDATED, true)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
-            } else {
-                // Display failure message
-                Toast.makeText(this, R.string.toast_failed_update_quantity, Toast.LENGTH_SHORT).show()
-                Log.e("SellProduct", "Failed to update product quantity in the database")
+        lifecycleScope.launch {
+            val success = productViewModel.sellProduct(product, sale, sellQuantity)
+            if (!success) {
+                // Handle failure (e.g., show error message)
+                Toast.makeText(this@ProductActivity, R.string.toast_failed_record_sale, Toast.LENGTH_SHORT).show()
             }
-        } else {
-            // Display failure message
-            Toast.makeText(this, R.string.toast_failed_record_sale, Toast.LENGTH_SHORT).show()
-            Log.e("SellProduct", "Failed to add sale to the database")
         }
     }
 
@@ -110,22 +103,11 @@ class ProductActivity : AppCompatActivity() {
         val inputAdd = findViewById<EditText>(R.id.input_add)
         val addQuantity = inputAdd.text.toString().toIntOrNull() ?: 0
 
-        // Update product quantity in the database
-        val dbHelper = ProductDatabaseHelper(this)
-        val updatedQuantity = product.quantity + addQuantity
-        val success = dbHelper.updateProductQuantity(product, updatedQuantity)
-
-        if (success && addQuantity > 0) {
-            // Display success message
-            Toast.makeText(this, R.string.toast_product_added_success, Toast.LENGTH_SHORT).show()
-            // Finish the activity
-            val intent = Intent()
-            intent.putExtra(EXTRA_PRODUCT_UPDATED, true)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        } else {
-            // Display failure message
-            Toast.makeText(this, R.string.toast_failed_update_quantity, Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val success = productViewModel.addQuantity(product, addQuantity)if (!success) {
+            // Handle failure (e.g., show error message)
+            Toast.makeText(this@ProductActivity, R.string.toast_failed_update_quantity, Toast.LENGTH_SHORT).show()
+        }
         }
     }
 
