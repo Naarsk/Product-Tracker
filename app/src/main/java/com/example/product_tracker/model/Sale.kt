@@ -19,12 +19,10 @@ data class Sale(
     @PrimaryKey
     val id: Int = 0,
     @ColumnInfo(name = "product_id", index = true)
-    var productId: String,
+    var productId: Int,
     var quantity: Int,
     var price: Double,
     var date: Date,
-    @ColumnInfo(name = "created_at")
     var createdAt: Date = Date(),
-    @ColumnInfo(name = "updated_at")
     var updatedAt: Date = Date()
 )

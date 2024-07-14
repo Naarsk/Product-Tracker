@@ -7,6 +7,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import java.util.Date
 
 @Dao
 interface ProductDao {
@@ -14,7 +15,7 @@ interface ProductDao {
     fun insertProduct(product: Product): Long
 
     @Delete
-    fun deleteProduct(id: Int)
+    fun deleteProduct(productId: Int)
 
     @Query("SELECT * FROM products")
     fun getAllProduct(): LiveData<List<Product>>
@@ -32,5 +33,8 @@ interface ProductDao {
     fun getAllProductId(productIds: List<String>): LiveData<List<String>>
 
     @Query("UPDATE products SET quantity = :updatedQuantity WHERE id = :productId")
-    suspend fun updateProductQuantity(productId: Int, updatedQuantity: Int)
+    suspend fun updateProductQuantity(productId: Int, updatedQuantity: Int): Long
+
+    @Query("UPDATE products SET updatedAt = :updatedAt WHERE id = :productId")
+    suspend fun updateUpdatedAt(productId: Int, updatedAt: Date): Long
 }

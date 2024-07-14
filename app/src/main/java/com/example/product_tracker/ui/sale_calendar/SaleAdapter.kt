@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.R
+import com.example.product_tracker.data.SaleViewModel
 import com.example.product_tracker.model.Sale
 
-class SaleAdapter(var sales: List<Sale>) : RecyclerView.Adapter<SaleAdapter.SaleViewHolder>() {
+class SaleAdapter(var sales: List<Sale>, private val saleViewModel: SaleViewModel)) : RecyclerView.Adapter<SaleAdapter.SaleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SaleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sale, parent, false)

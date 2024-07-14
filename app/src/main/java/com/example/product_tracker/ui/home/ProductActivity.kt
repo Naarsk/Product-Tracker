@@ -2,8 +2,7 @@ package com.example.product_tracker.ui.home
 
 import Product
 import android.app.Activity
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -11,24 +10,28 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
 import com.example.product_tracker.data.ProductViewModel
+import com.example.product_tracker.data.SaleViewModel
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.Date
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var product: Product
     private val productViewModel: ProductViewModel by viewModels()
+    private val saleViewModel = SaleViewModel()
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
         product = intent.getSerializableExtra("product") as Product
-        supportActionBar?.title = product.name
+        supportActionBar?.title = product.code
 
         // Load product image
         val productImageView = findViewById<ImageView>(R.id.productImageView)
@@ -82,32 +85,40 @@ class ProductActivity : AppCompatActivity() {
             return
         }
 
-        // Define Sale object
-        val sale = Sale(
-            product = product,
-            quantity = sellQuantity,
-            price = product.price,
-            date = Date()
-        )
 
         lifecycleScope.launch {
-            val success = productViewModel.sellProduct(product, sale, sellQuantity)
-            if (!success) {
-                // Handle failure (e.g., show error message)
-                Toast.makeText(this@ProductActivity, R.string.toast_failed_record_sale, Toast.LENGTH_SHORT).show()
+            saleViewModel.createNewSale(productId = product.id, date = Date.from(Instant.now()), price = product.price, quantity = sellQuantity)
+             productViewModel.addQuantity(productId= product.id, -sellQuantity)
+
+            // Observe results
+            saleViewModel.saleCreationResult.observe(this@ProductActivity) { saleCreationSuccess ->
+                productViewModel.productUpdateResult.observe(this@ProductActivity) { productUpdateSuccess ->
+                    if (!productUpdateSuccess || !saleCreationSuccess) {
+                        Toast.makeText(this@ProductActivity, R.string.toast_failed_record_sale, Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
 
     private fun addProduct() {
         val inputAdd = findViewById<EditText>(R.id.input_add)
-        val addQuantity = inputAdd.text.toString().toIntOrNull() ?: 0
+        val addQuantity= inputAdd.text.toString().toIntOrNull() ?: 0
 
         lifecycleScope.launch {
-            val success = productViewModel.addQuantity(product, addQuantity)if (!success) {
-            // Handle failure (e.g., show error message)
-            Toast.makeText(this@ProductActivity, R.string.toast_failed_update_quantity, Toast.LENGTH_SHORT).show()
-        }
+            productViewModel.addQuantity(productId = product.id, addQuantity = addQuantity)
+
+            // Observe the result
+            productViewModel.productUpdateResult.observe(this@ProductActivity) {success ->
+                if (!success) {
+                    //If it failed, raise a toast
+                    Toast.makeText(
+                        this@ProductActivity,
+                        R.string.toast_failed_update_quantity,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 

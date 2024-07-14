@@ -63,5 +63,7 @@
     <string name="toast_failed_record_sale">无法记录销售</string>
     <string name="toast_product_added_success">产品添加成功！</string>
     <string name="date">日期</string>
+    <string name="toast_product_updated">Product quantity updated successfully</string>
+    <string name="toast_failed_update">Failed product quantity update</string>
 
 </resources>

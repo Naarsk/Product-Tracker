@@ -64,6 +64,8 @@
     <string name="toast_failed_record_sale">Impossibile registrare la vendita</string>
     <string name="toast_product_added_success">Prodotto aggiunto con successo!</string>
     <string name="date">DATA</string>
+    <string name="toast_product_updated">Product quantity updated successfully</string>
+    <string name="toast_failed_update">Failed product quantity update</string>
 
 
 </resources>

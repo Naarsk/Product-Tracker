@@ -14,13 +14,10 @@ import java.util.Date
 class ProductViewModel : ViewModel() {
 
     private val productDao = MainApplication.appDatabase.getProductDao()
-
     val productList : LiveData<List<Product>> = productDao.getAllProduct()
-
 
     private val _productCreationResult = MutableLiveData<Boolean>()
     val productCreationResult: LiveData<Boolean> = _productCreationResult
-
 
     fun createNewProduct(code: String, type: String, imagePath: String, price: Double, quantity: Int, color: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -38,25 +35,28 @@ class ProductViewModel : ViewModel() {
         }
     }
 
+    private val _productUpdateResult = MutableLiveData<Boolean>()
+    val productUpdateResult: LiveData<Boolean> = _productUpdateResult
 
-
-    fun deleteProduct(id : Int){
-        productDao.deleteProduct(id = id)
+    suspend fun deleteProduct(productId : Int){
+        productDao.deleteProduct(productId = productId)
     }
 
-    fun addQuantity(id : Int, addQuantity : Int) {
+    fun addQuantity(productId : Int, addQuantity : Int) {
         viewModelScope.launch(Dispatchers.IO) { // Run on a background thread
 
-            val oldQuantity = productDao.getProductQuantity(productId = id)
+            val oldQuantity = productDao.getProductQuantity(productId = productId)
             val updatedQuantity = oldQuantity + addQuantity
 
-            productDao.updateProductQuantity(productId = id, updatedQuantity = updatedQuantity)
+            val updateSuccessful = productDao.updateProductQuantity(productId = productId, updatedQuantity = updatedQuantity)!= -1L
+            _productUpdateResult.postValue(updateSuccessful)
 
+            if (updateSuccessful) {
+                productDao.updateUpdatedAt(
+                    productId = productId,
+                    updatedAt = Date.from(Instant.now())
+                )
+            }
         }
-
     }
-
-
-
-
 }
