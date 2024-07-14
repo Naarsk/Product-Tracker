@@ -1,4 +1,4 @@
-import androidx.room.ColumnInfo
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
@@ -14,8 +14,6 @@ data class Product(
     var price: Double,
     var quantity: Int,
     var color: String,
-    @ColumnInfo(name = "created_at")
-    var createdAt: Date = Date(),
-    @ColumnInfo(name = "updated_at")
-    var updatedAt: Date = Date()
+    var createdAt: Date,
+    var updatedAt: Date
 )

@@ -31,9 +31,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8" // Ensure compatibility with Room and Hilt
-    }
+//    kotlinOptions {
+//        jvmTarget = "1.8" // Ensure compatibility with Room and Hilt
+//    }
 
     buildFeatures {
         viewBinding = true
@@ -61,6 +61,7 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.room:room-common:2.6.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
 
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")

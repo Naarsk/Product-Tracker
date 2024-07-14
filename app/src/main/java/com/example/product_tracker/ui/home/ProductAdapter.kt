@@ -1,5 +1,6 @@
 package com.example.product_tracker.ui.home
 
+import Product
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
-import com.example.product_tracker.model.Product
 
 
 class ProductAdapter(
@@ -37,9 +37,9 @@ class ProductAdapter(
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
-        val productId: String = product.id
+        val productCode: String = product.code
 
-        holder.productNameView.text = productId
+        holder.productNameView.text = productCode
         Glide.with(context)
             .load(product.imagePath)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -50,7 +50,7 @@ class ProductAdapter(
 
         holder.productImageView.setOnClickListener {
             val intent = Intent(context, ProductActivity::class.java)
-            intent.putExtra("name", productId)
+            intent.putExtra("name", productCode)
             intent.putExtra("product", product)
             (context as AppCompatActivity).startActivityForResult(intent, REQUEST_CODE_PRODUCT)
         }
