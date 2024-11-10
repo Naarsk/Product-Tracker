@@ -14,7 +14,7 @@ import java.util.Date
 class SaleViewModel  : ViewModel()  {
 
     private val saleDao = MainApplication.appDatabase.getSaleDao()
-    val saleList : LiveData<List<Sale>> = saleDao.getAllSale()
+    val saleList : List<Sale> = saleDao.getAllSale()
     
     private val _saleCreationResult = MutableLiveData<Boolean>()
     val saleCreationResult: LiveData<Boolean> = _saleCreationResult

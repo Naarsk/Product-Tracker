@@ -1,7 +1,6 @@
 package com.example.product_tracker.data // Adjust package name if needed
 
 import Product
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,10 +13,10 @@ interface ProductDao {
     fun insertProduct(product: Product): Long
 
     @Query("DELETE FROM products WHERE id = :productId")
-    fun deleteProduct(productId: Int)
+    fun deleteProduct(productId: Int) : Int
 
     @Query("SELECT * FROM products")
-    fun getAllProduct(): LiveData<List<Product>>
+    fun getAllProduct(): List<Product>
 
     @Query("SELECT * FROM products WHERE id = :productId")
     fun getProductById(productId: Int): Int
@@ -26,7 +25,7 @@ interface ProductDao {
     fun getProductQuantity(productId: Int): Int
 
     @Query("SELECT * FROM products WHERE type = :productType")
-    fun getProductByType(productType: String?): Int
+    fun getProductByType(productType: String?): List<Product>
 
     @Query("SELECT id FROM products WHERE id IN (:productIds)")
     fun getAllProductId(productIds: List<String>): Int

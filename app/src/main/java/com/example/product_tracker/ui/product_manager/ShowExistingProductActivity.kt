@@ -1,5 +1,6 @@
 package com.example.product_tracker.ui.product_manager
 
+import Product
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
@@ -13,16 +14,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
-import com.example.product_tracker.database.ProductDatabaseHelper
-import com.example.product_tracker.model.Product
+import com.example.product_tracker.data.ProductDao
 
 class ShowExistingProductActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_existing_product)
-        var products: ArrayList<Product>?
+        val productDao: ProductDao = MainApplication.productDao
 
         val productRecycler: RecyclerView? = findViewById(R.id.deleteProductRecycler)
         val progressBar: ProgressBar? = findViewById(R.id.deleteProgressBar)
@@ -40,19 +41,12 @@ class ShowExistingProductActivity : AppCompatActivity() {
         else{Log.d("onCreate", "Permission READ_MEDIA_IMAGES is granted")}
 
 
-        products = ArrayList()
+        val products: List<Product> = productDao.getAllProduct()
         if (products.isEmpty()) {
             progressBar?.visibility = View.VISIBLE
             Log.d("onCreate", "Call getProducts")
-            products = getProducts()
-            productRecycler?.adapter = EditDeleteAdapter(products,this)
+            productRecycler?.adapter = EditDeleteAdapter(this)
             progressBar?.visibility = View.GONE
         }
-    }
-
-
-    private fun getProducts(): ArrayList<Product> {
-        val dbHelper = ProductDatabaseHelper(this)
-        return dbHelper.getProductsByType(null)
     }
 }

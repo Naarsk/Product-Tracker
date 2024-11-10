@@ -10,18 +10,16 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
-import com.example.product_tracker.data.AppDatabase
-import com.example.product_tracker.data.ProductDao
 
 class ProductListActivity : AppCompatActivity() {
     private var productRecycler: RecyclerView? = null
     private var progressBar: ProgressBar? = null
-    private var products: LiveData<List<Product>> ? = null
-    private var productDao: ProductDao = AppDatabase.getProductDao()
+    private lateinit var productList: List<Product>
+    private val productDao = MainApplication.productDao
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,20 +34,15 @@ class ProductListActivity : AppCompatActivity() {
         productRecycler?.layoutManager = GridLayoutManager(this, 3)
         productRecycler?.setHasFixedSize(true)
 
-        productType?.let { productType ->
-            products = productDao.getProductsByType(productType)
-            products?.observe(this) { productList ->
-                Log.d("ProductGallery", "Observed product list: $productList") // Log the observed list
-                if (productList.isEmpty()) {
-                    progressBar?.visibility = View.VISIBLE
-                    Log.d("ProductGallery", "Product list is empty") // Log empty state
-                    // Handle empty case
-                } else {
-                    Log.d("ProductGallery", "Calling ProductAdapter") // Log before setting adapter
-                    productRecycler?.adapter = ProductAdapter(productList, this)
-                    progressBar?.visibility = View.GONE
-                }
-            }
+        productList = productDao.getProductByType(productType)
+        if (productList.isEmpty()) {
+            progressBar?.visibility = View.VISIBLE
+            Log.d("ProductGallery", "Product list is empty") // Log empty state
+            // Handle empty case
+        } else {
+            Log.d("ProductGallery", "Calling ProductAdapter") // Log before setting adapter
+            productRecycler?.adapter = ProductAdapter(productList, this)
+            progressBar?.visibility = View.GONE
         }
     }
 
@@ -63,10 +56,6 @@ class ProductListActivity : AppCompatActivity() {
                 recreate()
             }
         }
-    }
-    private fun getProducts(productType: String): LiveData<List<Product>> {
-
-        return productDao.getProductsByType(productType)
     }
 
     companion object {

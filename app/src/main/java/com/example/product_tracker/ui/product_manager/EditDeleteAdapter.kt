@@ -1,5 +1,6 @@
 package com.example.product_tracker.ui.product_manager
 
+import Product
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
@@ -12,21 +13,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
 import com.example.product_tracker.util.Utils
-import com.example.product_tracker.database.ProductDatabaseHelper
-import com.example.product_tracker.model.Product
 
-class EditDeleteAdapter(private val productList: ArrayList<Product>, private val context: Context) :
+class EditDeleteAdapter(private val context: Context) :
     RecyclerView.Adapter<EditDeleteAdapter.EditDeleteHolder>() {
 
+    private val productDao = MainApplication.productDao
+    private var productList: List<Product> = productDao.getAllProduct()
+
     class EditDeleteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var productImageView: ImageView
-        var productNameView: TextView
-        init {
-            productImageView = itemView.findViewById(R.id.product_image)
-            productNameView = itemView.findViewById(R.id.product_name)
-        }
+        var productImageView: ImageView = itemView.findViewById(R.id.product_image)
+        var productNameView: TextView = itemView.findViewById(R.id.product_name)
 
     }    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditDeleteHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -71,10 +70,9 @@ class EditDeleteAdapter(private val productList: ArrayList<Product>, private val
                     // Delete product image
                     Utils().deleteFile(product.imagePath)
                     //Delete product info from database
-                    val productDatabaseHelper = ProductDatabaseHelper(context)
-                    val deleted = productDatabaseHelper.deleteProduct(product)
-                    if (deleted) {
-                        productList.remove(product)
+                    val deleted = productDao.deleteProduct(productId=product.id)
+                    if (deleted == 1) {
+                        productList = productDao.getAllProduct()
                         notifyDataSetChanged()
                         Log.d("DeleteOption", "Product deleted: $product")
                     } else {

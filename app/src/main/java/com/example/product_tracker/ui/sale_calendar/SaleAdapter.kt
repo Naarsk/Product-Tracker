@@ -1,5 +1,6 @@
 package com.example.product_tracker.ui.sale_calendar
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.R
 import com.example.product_tracker.model.Sale
 
-class SaleAdapter(var sales: LiveData<List<Sale>>) : RecyclerView.Adapter<SaleAdapter.SaleViewHolder>() {
+class SaleAdapter(var sales: List<Sale>) : RecyclerView.Adapter<SaleAdapter.SaleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SaleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sale, parent, false)
@@ -17,18 +18,19 @@ class SaleAdapter(var sales: LiveData<List<Sale>>) : RecyclerView.Adapter<SaleAd
     }
 
     override fun onBindViewHolder(holder: SaleViewHolder, position: Int) {
-        val salesList = sales.value // Get the list of sales
-        if (salesList != null && position < salesList.size) {
+        val salesList = sales // Get the list of sales
+        if (position < salesList.size) {
             val sale = salesList[position]
             holder.bind(sale)
         }
     }
 
     override fun getItemCount(): Int {
-        return sales.value?.size ?: 0 // Return 0 if value is null
+        return sales.size ?: 0 // Return 0 if value is null
     }
 
-    fun refreshData(newSales: LiveData<List<Sale>>) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun refreshData(newSales: List<Sale>) {
         sales = newSales
         notifyDataSetChanged()
     }
@@ -41,7 +43,6 @@ class SaleAdapter(var sales: LiveData<List<Sale>>) : RecyclerView.Adapter<SaleAd
 
             val typeStr = itemView.context.getString(R.string.type)
             val idStr = itemView.context.getString(R.string.id)
-            val colorStr = itemView.context.getString(R.string.color)
 
             val saleDescription = typeStr + ": " + sale.productId
             descriptionTextView.text = saleDescription

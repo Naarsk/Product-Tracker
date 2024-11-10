@@ -16,17 +16,12 @@ import com.example.product_tracker.R
 
 
 class ProductAdapter(
-    private val productList: ArrayList<Product>,
+    private val productList: List<Product>,
     private val context: Context) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var productImageView: ImageView
-        var productNameView: TextView
-
-        init {
-            productImageView = itemView.findViewById(R.id.product_image)
-            productNameView = itemView.findViewById(R.id.product_name)
-        }
+        var productImageView: ImageView = itemView.findViewById(R.id.product_image)
+        var productNameView: TextView = itemView.findViewById(R.id.product_name)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {

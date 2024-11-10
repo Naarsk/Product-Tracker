@@ -75,17 +75,6 @@ class MainActivity : AppCompatActivity() {
         // Check for permissions
         checkPermission(
             Manifest.permission.READ_MEDIA_IMAGES, READ_IMAGES_PERMISSION_CODE)
-
-        // Initialize AppDatabase and DAOs
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "product_tracker_database"
-        ).build()
-
-        productDao = db.getProductDao()
-        saleDao = db.getSaleDao()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

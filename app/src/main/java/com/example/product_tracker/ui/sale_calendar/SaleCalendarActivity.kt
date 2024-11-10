@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.CalendarView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.R
@@ -55,7 +54,7 @@ class SaleCalendarActivity : AppCompatActivity() {
 
     }
 
-    private fun getSalesForDate(date: Date): LiveData<List<Sale>> {
+    private fun getSalesForDate(date: Date): List<Sale> {
         Log.d("SaleCalendarActivity", "Getting sales for date: $date")
         // Return a list of Sale objects
         val sales = saleDao.getSalesForDay(date)
@@ -64,7 +63,7 @@ class SaleCalendarActivity : AppCompatActivity() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun updateSalesList(sales: LiveData<List<Sale>>) {
+    private fun updateSalesList(sales: List<Sale>) {
         saleAdapter.sales = sales
         saleAdapter.notifyDataSetChanged()
         Log.d("SaleCalendarActivity", "Updated sales list: $sales")

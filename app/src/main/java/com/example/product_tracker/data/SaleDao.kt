@@ -18,10 +18,10 @@ interface SaleDao {
     fun deleteSale(saleId: Int) : Int
 
     @Query("SELECT * FROM sales")
-    fun getAllSale() : LiveData<List<Sale>>
+    fun getAllSale() : List<Sale>
 
     @Query(" SELECT * FROM sales WHERE strftime('%Y-%m-%d', date) = strftime('%Y-%m-%d', :date)")
-    fun getSalesForDay(date: Date): Int
+    fun getSalesForDay(date: Date): List<Sale>
 
     @Query("SELECT * FROM sales WHERE id = :saleId")
     fun getSaleById(saleId: Int): Int

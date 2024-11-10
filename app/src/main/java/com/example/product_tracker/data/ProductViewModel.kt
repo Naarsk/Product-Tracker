@@ -13,8 +13,8 @@ import java.util.Date
 
 class ProductViewModel : ViewModel() {
 
-    private val productDao = MainApplication.appDatabase.getProductDao()
-    val productList : LiveData<List<Product>> = productDao.getAllProduct()
+    private val productDao = MainApplication.productDao
+    val productList : List<Product> = productDao.getAllProduct()
 
     private val _productCreationResult = MutableLiveData<Boolean>()
     val productCreationResult: LiveData<Boolean> = _productCreationResult

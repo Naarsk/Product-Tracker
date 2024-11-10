@@ -16,21 +16,21 @@ class UserViewModel : ViewModel() {
 
     val userList : LiveData<List<User>> = userDao.getAllUser()
 
-    fun createNewUser(firstName : String, lastName : String){
+    fun createNewUser(username : String, password : String, email : String){
 
         viewModelScope.launch(Dispatchers.IO) { // Run on a background thread
             val user = User(
-                firstName = firstName,
-                lastName = lastName,
+                username = username,
+                password = password,
+                email = email,
                 createdAt = Date.from(Instant.now()),
                 updatedAt = Date.from(Instant.now())
-
             )
             userDao.insertUser(user)
         }
     }
 
     fun deleteUser(id : Int){
-        userDao.deleteUser(id = id)
+        userDao.deleteUser(userId = id)
     }
 }

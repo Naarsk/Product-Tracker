@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_sale_calendar"
             app:destination="@id/nav_sale_calendar" />
+        <action
+            android:id="@+id/action_nav_home_to_productListActivity"
+            app:destination="@id/productListActivity" />
     </fragment>
 
     <fragment
@@ -27,14 +30,22 @@
             android:id="@+id/action_nav_manage_product_to_nav_home"
             app:destination="@id/nav_home" />
         <action
-            android:id="@+id/action_nav_manage_product_to_nav_sale_calendar"
-            app:destination="@id/nav_sale_calendar" />
+            android:id="@+id/action_nav_manage_product_to_createNewProductActivity2"
+            app:destination="@id/createNewProductActivity2" />
     </fragment>
 
     <activity
         android:id="@+id/nav_sale_calendar"
         android:name="com.example.product_tracker.ui.sale_calendar.SaleCalendarActivity"
         android:label="@string/menu_sale_calendar" />
+    <activity
+        android:id="@+id/createNewProductActivity2"
+        android:name="com.example.product_tracker.ui.product_manager.CreateNewProductActivity"
+        android:label="CreateNewProductActivity" />
+    <activity
+        android:id="@+id/productListActivity"
+        android:name="com.example.product_tracker.ui.home.ProductListActivity"
+        android:label="ProductListActivity" />
 
 
 </navigation>
