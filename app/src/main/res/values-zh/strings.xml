@@ -2,4 +2,5 @@
 <resources>
     <string name="toast_product_updated">Product quantity updated successfully</string>
     <string name="toast_failed_update">Failed product quantity update</string>
+    <string name="no_products_found">No products found</string>
 </resources>

@@ -1,25 +1,28 @@
 package com.example.product_tracker.ui.home
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
-import com.example.product_tracker.model.Product
+import com.example.product_tracker.data.ProductListViewModel
 
 class ProductListActivity : AppCompatActivity() {
-    private var productRecycler: RecyclerView? = null
-    private var progressBar: ProgressBar? = null
-    private lateinit var productList: List<Product>
-    private val productDao = MainApplication.productDao
+    private lateinit var productRecycler: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var noProductsTextView: TextView
+
+    private var productDao = MainApplication.productDao
+    private var viewModel: ProductListViewModel  = ProductListViewModel(productDao = productDao)
+
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,26 +33,38 @@ class ProductListActivity : AppCompatActivity() {
 
         productRecycler = findViewById(R.id.productRecycler)
         progressBar = findViewById(R.id.progressBar)
+        noProductsTextView = findViewById(R.id.noProductsTextView)
 
-        productRecycler?.layoutManager = GridLayoutManager(this, 3)
-        productRecycler?.setHasFixedSize(true)
+        productRecycler.layoutManager = GridLayoutManager(this, 3)
+        productRecycler.setHasFixedSize(true)
 
-        productList = productDao.getProductByType(productType)
-        if (productList.isEmpty()) {
-            progressBar?.visibility = View.VISIBLE
-            Log.d("ProductGallery", "Product list is empty") // Log empty state
-            // Handle empty case
-        } else {
-            Log.d("ProductGallery", "Calling ProductAdapter") // Log before setting adapter
-            productRecycler?.adapter = ProductAdapter(productList, this)
-            progressBar?.visibility = View.GONE
+        // Observe LiveData and update UI
+        viewModel.products.observe(this) { productList ->
+            Log.d("ProductListActivity", "Observed product list: $productList")
+            if (productList.isEmpty()) {
+                progressBar.visibility = View.VISIBLE
+                Log.d("ProductListActivity", "Product list is empty")
+                // Display "No products found" message
+                noProductsTextView.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+
+                // Handle empty case
+            } else {
+                Log.d("ProductListActivity", "Calling ProductAdapter")
+                productRecycler.adapter = ProductAdapter(productList, this)
+                progressBar.visibility = View.GONE
+            }
         }
+
+        // Fetch products
+        productType?.let { viewModel.getProducts(it) }
+
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_PRODUCT && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_PRODUCT && resultCode == RESULT_OK) {
             val productUpdated = data?.getBooleanExtra(EXTRA_PRODUCT_UPDATED, false) ?: false
             if (productUpdated) {
                 // Refresh the UI here
