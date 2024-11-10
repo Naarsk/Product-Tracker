@@ -4,18 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.product_tracker.MainApplication
 import com.example.product_tracker.model.Sale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date
 
-class SaleViewModel  : ViewModel()  {
+class SaleViewModel(private val saleDao : SaleDao)  : ViewModel()  {
 
-    private val saleDao = MainApplication.appDatabase.getSaleDao()
-    val saleList : List<Sale> = saleDao.getAllSale()
-    
     private val _saleCreationResult = MutableLiveData<Boolean>()
     val saleCreationResult: LiveData<Boolean> = _saleCreationResult
 

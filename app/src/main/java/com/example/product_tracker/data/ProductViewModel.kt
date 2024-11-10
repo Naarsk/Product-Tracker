@@ -1,19 +1,33 @@
 package com.example.product_tracker.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.product_tracker.MainApplication
 import com.example.product_tracker.model.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.util.Date
 
-class ProductViewModel : ViewModel() {
+class ProductViewModel(private val productDao : ProductDao) : ViewModel() {
 
-    private val productDao = MainApplication.productDao
+    private val _product = MutableLiveData<Product>()
+    val product: LiveData<Product> = _product
+
+    fun getProductById(productId : Int) {
+        viewModelScope.launch{
+            Log.d("ProductListViewModel", "Fetching product with ID: $productId")
+            val product = withContext(Dispatchers.IO) {
+                productDao.getProductById(productId)
+            }
+            Log.d("ProductListViewModel", "Product fetched: ${product.code}")
+            _product.postValue(product)
+        }
+    }
+
 
     private val _productCreationResult = MutableLiveData<Boolean>()
     val productCreationResult: LiveData<Boolean> = _productCreationResult
@@ -36,10 +50,6 @@ class ProductViewModel : ViewModel() {
 
     private val _productUpdateResult = MutableLiveData<Boolean>()
     val productUpdateResult: LiveData<Boolean> = _productUpdateResult
-
-    fun deleteProduct(productId : Int){
-        productDao.deleteProduct(productId = productId)
-    }
 
     fun addQuantity(productId : Int, addQuantity : Int) {
         viewModelScope.launch(Dispatchers.IO) { // Run on a background thread

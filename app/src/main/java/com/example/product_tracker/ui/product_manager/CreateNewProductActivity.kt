@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
 import com.example.product_tracker.util.Utils
 import com.example.product_tracker.data.ProductViewModel
@@ -33,6 +34,10 @@ import java.util.Locale
 private const val s = "Product created successfully"
 
 class CreateNewProductActivity : AppCompatActivity() {
+
+    private var productDao = MainApplication.productDao
+    private var productViewModel = ProductViewModel(productDao = productDao)
+
 
     // Declare the activity result launchers
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
@@ -80,8 +85,6 @@ class CreateNewProductActivity : AppCompatActivity() {
             val quantity: String = loadQuantityTextView.text.toString()
             val code: String = loadIdTextView.text.toString()
 
-            // Create a Product instance with the values and insert the values into the database
-            val productViewModel = ProductViewModel()
             // Trigger product creation
             productViewModel.createNewProduct(code, type, selectedImagePath, price.toDouble(), quantity.toInt(), color)
 

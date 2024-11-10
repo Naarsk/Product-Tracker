@@ -30,6 +30,7 @@ class ProductListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product_list)
 
         val productType = intent.getStringExtra("productType")
+        Log.d("ProductListActivity", "selected product type: $productType")
 
         productRecycler = findViewById(R.id.productRecycler)
         progressBar = findViewById(R.id.progressBar)
@@ -45,11 +46,11 @@ class ProductListActivity : AppCompatActivity() {
                 progressBar.visibility = View.VISIBLE
                 Log.d("ProductListActivity", "Product list is empty")
                 // Display "No products found" message
-                noProductsTextView.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
-
-                // Handle empty case
+                noProductsTextView.visibility = View.VISIBLE
             } else {
+                noProductsTextView.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
                 Log.d("ProductListActivity", "Calling ProductAdapter")
                 productRecycler.adapter = ProductAdapter(productList, this)
                 progressBar.visibility = View.GONE

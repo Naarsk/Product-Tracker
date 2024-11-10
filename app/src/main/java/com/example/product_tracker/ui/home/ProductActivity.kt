@@ -2,17 +2,20 @@ package com.example.product_tracker.ui.home
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
 import com.example.product_tracker.data.ProductViewModel
 import com.example.product_tracker.data.SaleViewModel
@@ -21,20 +24,50 @@ import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date
 
-class ProductActivity : AppCompatActivity() {
-    private lateinit var product: Product
-    private val productViewModel: ProductViewModel by viewModels()
-    private val saleViewModel = SaleViewModel()
 
+class ProductActivity : AppCompatActivity() {
+    private lateinit var product: Product // Declare product outside the observer
+
+    private lateinit var productImageView : ImageView
+    private lateinit var priceTextView : TextView
+    private lateinit var quantityTextView : TextView
+    private lateinit var colorTextView : TextView
+    private lateinit var typeTextView : TextView
+    private lateinit var sellButton : Button
+    private lateinit var addButton : Button
+
+    private var productDao = MainApplication.productDao
+    private var saleDao = MainApplication.saleDao
+    private var productViewModel = ProductViewModel(productDao = productDao)
+    private val saleViewModel = SaleViewModel(saleDao = saleDao)
+
+    //private lateinit var product : Product
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
-        product = intent.getSerializableExtra("product") as Product
+        val productId = intent.getIntExtra("productId", -1)
+        Log.d("ProductActivity", "selected product ID: $productId")
+
+        productImageView = findViewById(R.id.productImageView)
+        priceTextView = findViewById(R.id.priceTextView)
+        quantityTextView = findViewById(R.id.quantityTextView)
+        colorTextView = findViewById(R.id.colorTextView)
+        typeTextView = findViewById(R.id.typeTextView)
+        sellButton = findViewById(R.id.button_sell)
+        addButton = findViewById(R.id.button_add)
+
+        // Observe LiveData and update UI
+        productViewModel.product.observe(this) { productFromLiveData ->
+            Log.d("ProductActivity", "observed product: ${productFromLiveData.code}")
+            product = productFromLiveData
+        }
+
         supportActionBar?.title = product.code
 
         // Load product image
-        val productImageView = findViewById<ImageView>(R.id.productImageView)
         Glide.with(this)
             .load(product.imagePath)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -42,20 +75,15 @@ class ProductActivity : AppCompatActivity() {
             .fitCenter()
             .into(productImageView)
 
-        val priceTextView = findViewById<TextView>(R.id.priceTextView)
         priceTextView.text = product.price.toString()
-        val quantityTextView = findViewById<TextView>(R.id.quantityTextView)
         quantityTextView.text = product.quantity.toString()
-        val colorTextView = findViewById<TextView>(R.id.colorTextView)
         colorTextView.text = product.color
-        val typeTextView = findViewById<TextView>(R.id.typeTextView)
         typeTextView.text = product.type
 
-        val sellButton = findViewById<Button>(R.id.button_sell)
         sellButton.setOnClickListener {
             sellProduct()
         }
-        val addButton = findViewById<Button>(R.id.button_add)
+
         addButton.setOnClickListener {
             addProduct()
         }
@@ -88,7 +116,7 @@ class ProductActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             saleViewModel.createNewSale(productId = product.id, date = Date.from(Instant.now()), price = product.price, quantity = sellQuantity)
-             productViewModel.addQuantity(productId= product.id, -sellQuantity)
+            productViewModel.addQuantity(productId= product.id, -sellQuantity)
 
             // Observe results
             saleViewModel.saleCreationResult.observe(this@ProductActivity) { saleCreationSuccess ->
@@ -109,7 +137,7 @@ class ProductActivity : AppCompatActivity() {
             productViewModel.addQuantity(productId = product.id, addQuantity = addQuantity)
 
             // Observe the result
-            productViewModel.productUpdateResult.observe(this@ProductActivity) {success ->
+            productViewModel.productUpdateResult.observe(this@ProductActivity) { success ->
                 if (!success) {
                     //If it failed, raise a toast
                     Toast.makeText(

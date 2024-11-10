@@ -2,12 +2,12 @@ package com.example.product_tracker.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -17,7 +17,8 @@ import com.example.product_tracker.model.Product
 
 class ProductAdapter(
     private val productList: List<Product>,
-    private val context: Context) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+    private val context: Context
+) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var productImageView: ImageView = itemView.findViewById(R.id.product_image)
@@ -45,17 +46,14 @@ class ProductAdapter(
 
 
         holder.productImageView.setOnClickListener {
+            Log.d("ProductAdapter", "Product image clicked: $productId")
             val intent = Intent(context, ProductActivity::class.java)
-            intent.putExtra("name", productCode)
-            intent.putExtra("product_id", productId)
-            (context as AppCompatActivity).startActivityForResult(intent, REQUEST_CODE_PRODUCT)
+            intent.putExtra("productId", productId)
+            context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
         return productList.size
-    }
-    companion object {
-        const val REQUEST_CODE_PRODUCT = 1
     }
 }
