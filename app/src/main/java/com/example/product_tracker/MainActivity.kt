@@ -20,8 +20,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import com.example.product_tracker.database.ProductDatabaseHelper
-import com.example.product_tracker.database.SaleDatabaseHelper
+import androidx.room.Room
+import com.example.product_tracker.data.AppDatabase
+import com.example.product_tracker.data.ProductDao
+import com.example.product_tracker.data.SaleDao
 import com.example.product_tracker.databinding.ActivityMainBinding
 import com.example.product_tracker.ui.menu.LanguageChangeHandler
 
@@ -30,6 +32,9 @@ class MainActivity : AppCompatActivity() {
     private var mAppBarConfiguration: AppBarConfiguration? = null
     private lateinit var languageChangeHandler: LanguageChangeHandler
     private lateinit var toolbar: Toolbar
+    private lateinit var productDao: ProductDao
+    private lateinit var saleDao: SaleDao
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -71,8 +76,15 @@ class MainActivity : AppCompatActivity() {
         checkPermission(
             Manifest.permission.READ_MEDIA_IMAGES, READ_IMAGES_PERMISSION_CODE)
 
-        // Initialize the databases
-        initializeDatabases()
+        // Initialize AppDatabase and DAOs
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "product_tracker_database"
+        ).build()
+
+        productDao = db.getProductDao()
+        saleDao = db.getSaleDao()
 
     }
 
@@ -129,38 +141,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainActivity", "Permission already granted")
         }
     }
-    private fun initializeDatabases() {
-        fun checkDatabaseExists(dbPath: String): Boolean {
-            val dbFile = getDatabasePath(dbPath)
-            return dbFile.exists()
-        }
-        // Initialize the database helpers
-        val productDbHelper = ProductDatabaseHelper(this)
-        val saleDbHelper = SaleDatabaseHelper(this)
 
-        // Check if the product database is already present and create it if it doesn't exist
-        val productDbPath = getDatabasePath(ProductDatabaseHelper.DATABASE_NAME).absolutePath
-        val productDbExists = checkDatabaseExists(productDbPath)
-        if (!productDbExists) {
-            productDbHelper.writableDatabase
-            Log.d("MainActivity", "Product database created at path: $productDbPath")
-            // Store the selected language preference
-
-
-        } else {
-            Log.d("MainActivity", "Product database already present at path: $productDbPath")
-        }
-
-        // Check if the sale database is already present and create it if it doesn't exist
-        val saleDbPath = getDatabasePath(SaleDatabaseHelper.DATABASE_NAME).absolutePath
-        val saleDbExists = checkDatabaseExists(saleDbPath)
-        if (!saleDbExists) {
-            saleDbHelper.writableDatabase
-            Log.d("MainActivity", "Sale database created at path: $saleDbPath")
-        } else {
-            Log.d("MainActivity", "Sale database already present at path: $saleDbPath")
-        }
-    }
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
         private const val READ_IMAGES_PERMISSION_CODE = 101

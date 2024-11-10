@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.product_tracker.R
-import com.example.product_tracker.Utils
+import com.example.product_tracker.util.Utils
 import com.example.product_tracker.database.ProductDatabaseHelper
 import com.example.product_tracker.model.Product
 

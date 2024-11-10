@@ -11,7 +11,7 @@ import java.util.Date
     ForeignKey(
         entity = Product::class,
         parentColumns = ["id"], // Referencing the internal primary key of Product
-        childColumns = ["productId"],
+        childColumns = ["product_id"],
         onDelete = ForeignKey.CASCADE
     )
 ])

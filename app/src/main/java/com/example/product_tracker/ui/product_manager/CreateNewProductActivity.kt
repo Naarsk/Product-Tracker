@@ -22,7 +22,7 @@ import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
-import com.example.product_tracker.Utils
+import com.example.product_tracker.util.Utils
 import com.example.product_tracker.data.ProductViewModel
 import com.example.product_tracker.model.ProductTypeMapper
 import java.io.File

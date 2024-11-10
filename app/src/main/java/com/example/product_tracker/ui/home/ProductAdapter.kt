@@ -38,6 +38,7 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
         val productCode: String = product.code
+        val productId: Int = product.id
 
         holder.productNameView.text = productCode
         Glide.with(context)
@@ -51,7 +52,7 @@ class ProductAdapter(
         holder.productImageView.setOnClickListener {
             val intent = Intent(context, ProductActivity::class.java)
             intent.putExtra("name", productCode)
-            intent.putExtra("product", product)
+            intent.putExtra("product_id", productId)
             (context as AppCompatActivity).startActivityForResult(intent, REQUEST_CODE_PRODUCT)
         }
     }

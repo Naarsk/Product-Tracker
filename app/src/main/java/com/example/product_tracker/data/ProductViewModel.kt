@@ -38,7 +38,7 @@ class ProductViewModel : ViewModel() {
     private val _productUpdateResult = MutableLiveData<Boolean>()
     val productUpdateResult: LiveData<Boolean> = _productUpdateResult
 
-    suspend fun deleteProduct(productId : Int){
+    fun deleteProduct(productId : Int){
         productDao.deleteProduct(productId = productId)
     }
 
@@ -48,7 +48,7 @@ class ProductViewModel : ViewModel() {
             val oldQuantity = productDao.getProductQuantity(productId = productId)
             val updatedQuantity = oldQuantity + addQuantity
 
-            val updateSuccessful = productDao.updateProductQuantity(productId = productId, updatedQuantity = updatedQuantity)!= -1L
+            val updateSuccessful = productDao.updateProductQuantity(productId = productId, updatedQuantity = updatedQuantity)!= 0
             _productUpdateResult.postValue(updateSuccessful)
 
             if (updateSuccessful) {

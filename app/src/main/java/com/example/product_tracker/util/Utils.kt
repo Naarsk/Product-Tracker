@@ -1,4 +1,4 @@
-package com.example.product_tracker
+package com.example.product_tracker.util
 
 import android.util.Log
 import java.io.File

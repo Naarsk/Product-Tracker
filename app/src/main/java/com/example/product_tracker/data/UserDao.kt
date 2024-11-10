@@ -12,10 +12,10 @@ interface UserDao {
     @Insert
     fun insertUser(user :User)
 
-    @Delete
-    fun deleteUser(id : Int)
+    @Query("DELETE FROM users WHERE id = :userId") // Assuming "users" is your table name
+    fun deleteUser(userId: Int)
 
-    @Query("SELECT * FROM USER")
+    @Query("SELECT * FROM users")
     fun getAllUser() : LiveData<List<User>>
 
 }
