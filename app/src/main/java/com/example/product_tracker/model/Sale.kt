@@ -1,6 +1,5 @@
 package com.example.product_tracker.model
 
-import Product
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey

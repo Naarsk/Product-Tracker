@@ -1,6 +1,5 @@
 package com.example.product_tracker.ui.home
 
-import Product
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.product_tracker.R
 import com.example.product_tracker.data.ProductViewModel
 import com.example.product_tracker.data.SaleViewModel
+import com.example.product_tracker.model.Product
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date

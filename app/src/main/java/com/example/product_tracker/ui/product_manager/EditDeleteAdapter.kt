@@ -1,6 +1,5 @@
 package com.example.product_tracker.ui.product_manager
 
-import Product
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
@@ -15,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
+import com.example.product_tracker.model.Product
 import com.example.product_tracker.util.Utils
 
 class EditDeleteAdapter(private val context: Context) :

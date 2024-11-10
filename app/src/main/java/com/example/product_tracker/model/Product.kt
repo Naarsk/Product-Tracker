@@ -1,3 +1,4 @@
+package com.example.product_tracker.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

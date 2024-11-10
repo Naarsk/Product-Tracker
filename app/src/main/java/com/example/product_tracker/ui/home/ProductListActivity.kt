@@ -1,6 +1,5 @@
 package com.example.product_tracker.ui.home
 
-import Product
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
+import com.example.product_tracker.model.Product
 
 class ProductListActivity : AppCompatActivity() {
     private var productRecycler: RecyclerView? = null

@@ -1,10 +1,10 @@
 package com.example.product_tracker.data // Adjust package name if needed
 
-import Product
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.product_tracker.model.Product
 import java.util.Date
 
 @Dao

@@ -1,6 +1,5 @@
 package com.example.product_tracker.ui.product_manager
 
-import Product
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.product_tracker.MainApplication
 import com.example.product_tracker.R
 import com.example.product_tracker.data.ProductDao
+import com.example.product_tracker.model.Product
 
 class ShowExistingProductActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

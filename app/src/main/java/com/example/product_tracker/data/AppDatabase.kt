@@ -1,9 +1,9 @@
 package com.example.product_tracker.data
 
-import Product
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.product_tracker.model.Product
 import com.example.product_tracker.model.Sale
 import com.example.product_tracker.util.Converters
 

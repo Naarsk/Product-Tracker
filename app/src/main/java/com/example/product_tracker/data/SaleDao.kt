@@ -1,6 +1,5 @@
 package com.example.product_tracker.data // Adjust package name if needed
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

@@ -1,11 +1,11 @@
 package com.example.product_tracker.data
 
-import Product
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.product_tracker.MainApplication
+import com.example.product_tracker.model.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -14,7 +14,6 @@ import java.util.Date
 class ProductViewModel : ViewModel() {
 
     private val productDao = MainApplication.productDao
-    val productList : List<Product> = productDao.getAllProduct()
 
     private val _productCreationResult = MutableLiveData<Boolean>()
     val productCreationResult: LiveData<Boolean> = _productCreationResult
