@@ -102,6 +102,8 @@ class ProductActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.toast_failed_update, Toast.LENGTH_SHORT).show()
             }
         }
+
+        productId.let {productViewModel.getProductById(it)}
     }
 
     private fun sellProduct() {

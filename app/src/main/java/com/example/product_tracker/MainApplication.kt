@@ -8,6 +8,8 @@ import com.example.product_tracker.data.ProductDao
 import com.example.product_tracker.data.SaleDao
 import com.example.product_tracker.data.UserDao
 import com.example.product_tracker.data.UserDatabase
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainApplication : Application() {
     // DAOs for accessing product and sale data
@@ -21,6 +23,17 @@ class MainApplication : Application() {
         lateinit var productDao: ProductDao
         lateinit var saleDao: SaleDao
         lateinit var userDao: UserDao
+        private lateinit var retrofit: Retrofit
+
+        fun getRetrofitInstance(): Retrofit {
+            if (!::retrofit.isInitialized) {
+                retrofit = Retrofit.Builder()
+                    .baseUrl("YOUR_API_BASE_URL")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+            }
+            return retrofit
+        }
     }
 
     override fun onCreate() {
